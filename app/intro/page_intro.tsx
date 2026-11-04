@@ -213,33 +213,37 @@ export default function PageIntro() {
 
      {/* PERSONAGEM */}
 
-<img
-  src="/images/mentor.png"
-  alt="Victor"
-  draggable={false}
+<div
   style={{
     position: "absolute",
-    left: "1%",
-    bottom: "-2px",
-
-    height: "94vh",
-    width: "auto",
-
-    maxWidth: "48vw",
-    maxHeight: "940px",
-
-    objectFit: "contain",
-    objectPosition: "left bottom",
-
+    left: "1.5%",
+    bottom: 0,
+    width: "34vw",
+    height: "84vh",
     zIndex: 20,
-
-    userSelect: "none",
+    overflow: "visible",
     pointerEvents: "none",
-
-    filter:
-      "drop-shadow(10px 8px 14px rgba(0, 0, 0, 0.48))",
   }}
-/>
+>
+  <img
+    src="/images/mentor.png"
+    alt="Victor"
+    draggable={false}
+    style={{
+      position: "absolute",
+      left: 0,
+      bottom: 0,
+      width: "100%",
+      height: "100%",
+      objectFit: "contain",
+      objectPosition: "left bottom",
+      userSelect: "none",
+      pointerEvents: "none",
+      filter:
+        "drop-shadow(10px 8px 14px rgba(0, 0, 0, 0.48))",
+    }}
+  />
+</div>
 
       {/* BALÃO DE DIÁLOGO */}
 
