@@ -86,10 +86,10 @@ export default function PageIntro() {
     }
 
     if (!typingDone) {
-      setDisplayText(dialogos[step]);
-      setTypingDone(true);
       return;
     }
+    setDisplayText(dialogos[step]);
+    setTypingDone(true);
 
     if (step < dialogos.length - 1) {
       setStep((stepAtual) => stepAtual + 1);
