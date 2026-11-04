@@ -267,24 +267,15 @@ export default function PageIntro() {
   draggable={false}
   style={{
     position: "absolute",
-
-    /* Mais para a direita */
     left: "2.5vw",
-
-    /* Mais para baixo */
     bottom: "-42px",
-
-    /* Mantém o tamanho grande */
     height: "100vh",
     width: "auto",
-
     objectFit: "contain",
     objectPosition: "left bottom",
-
     zIndex: 20,
     userSelect: "none",
     pointerEvents: "none",
-
     filter:
       "drop-shadow(10px 8px 14px rgba(0, 0, 0, 0.48))",
   }}
