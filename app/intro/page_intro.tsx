@@ -261,44 +261,36 @@ export default function PageIntro() {
 
       {/* VICTOR */}
 
-      <img
-        src="/images/mentor.png"
-        alt="Victor"
-        draggable={false}
-        style={{
-          position: "absolute",
+<img
+  src="/images/mentor.png"
+  alt="Victor"
+  draggable={false}
+  style={{
+    position: "absolute",
 
-          /*
-           * Ajustes principais do personagem.
-           */
-          left: "-1%",
-          bottom: "-4px",
+    /* Posição do personagem */
+    left: "-1.5vw",
+    bottom: "-8px",
 
-          /*
-           * A altura controla o tamanho principal.
-           * A largura automática preserva a proporção.
-           */
-          height: "96vh",
-          width: "auto",
+    /* Tamanho grande, com corpo inteiro */
+    height: "100vh",
+    width: "auto",
 
-          /*
-           * Evita que a imagem ultrapasse demais
-           * a área do balão em telas muito largas.
-           */
-          maxWidth: "47vw",
+    /* Amplia o conteúdo sem deslocar os pés */
+    transform: "scale(1.08)",
+    transformOrigin: "left bottom",
 
-          objectFit: "contain",
-          objectPosition: "left bottom",
+    objectFit: "contain",
+    objectPosition: "left bottom",
 
-          zIndex: 20,
+    zIndex: 20,
+    userSelect: "none",
+    pointerEvents: "none",
 
-          userSelect: "none",
-          pointerEvents: "none",
-
-          filter:
-            "drop-shadow(10px 8px 14px rgba(0, 0, 0, 0.48))",
-        }}
-      />
+    filter:
+      "drop-shadow(10px 8px 14px rgba(0, 0, 0, 0.48))",
+  }}
+/>
 
       {/* BALÃO DE DIÁLOGO */}
 
