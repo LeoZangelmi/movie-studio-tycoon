@@ -292,60 +292,70 @@ export default function PageWorldMap() {
             value={gameData.year}
           />
 
-          {/* BOTÃO MAPA */}
+          {/* MAPA */}
 
 <HudButton
-  left="74.4%"
-  top="63%"
-  width="3.9%"
-  height="21%"
-  label="Mapa"
+  imageSrc="/images/hud/button_map.png"
+  left="74.2%"
+  top="61%"
+  width="4%"
+  height="22%"
   active
-  onClick={() => router.push("/worldmap")}
+  onClick={() =>
+    router.push("/worldmap")
+  }
 />
 
-{/* BOTÃO ESTÚDIOS */}
+{/* ESTÚDIOS */}
 
 <HudButton
-  left="80.0%"
-  top="63%"
-  width="3.9%"
-  height="21%"
-  label="Estúdios"
-  onClick={() => router.push("/studio")}
+  imageSrc="/images/hud/button_studio.png"
+  left="79.6%"
+  top="61%"
+  width="4%"
+  height="22%"
+  onClick={() =>
+    router.push("/studio")
+  }
 />
 
-{/* BOTÃO EVENTOS */}
+{/* EVENTOS */}
 
 <HudButton
-  left="85.6%"
-  top="63%"
-  width="3.9%"
-  height="21%"
-  label="Eventos"
-  onClick={() => router.push("/events")}
+  imageSrc="/images/hud/button_events.png"
+  left="85%"
+  top="61%"
+  width="4%"
+  height="22%"
+  onClick={() =>
+    router.push("/events")
+  }
 />
 
-{/* BOTÃO MISSÕES */}
+{/* MISSÕES */}
 
 <HudButton
-  left="91.1%"
-  top="63%"
-  width="3.9%"
-  height="21%"
-  label="Missões"
-  onClick={() => router.push("/missions")}
+  imageSrc="/images/hud/button_missions.png"
+  left="90.3%"
+  top="61%"
+  width="4%"
+  height="22%"
+  onClick={() =>
+    router.push("/missions")
+  }
 />
 
-{/* BOTÃO OPÇÕES */}
+{/* OPÇÕES */}
 
 <HudButton
-  left="96.4%"
-  top="63%"
-  width="3.5%"
-  height="21%"
-  label="Opções"
-  onClick={() => router.push("/settings")}
+  imageSrc="/images/hud/button_settings.png"
+  left="95.5%"
+  top="61%"
+  width="3.7%"
+  height="22%"
+  onClick={() =>
+    router.push("/settings")
+  }
 />
         </div>
       </section>

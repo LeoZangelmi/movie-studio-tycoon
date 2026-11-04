@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
+
 type HudButtonProps = {
-  label: string;
+  imageSrc: string;
   left: string;
   top: string;
   width: string;
@@ -11,6 +13,7 @@ type HudButtonProps = {
 };
 
 export default function HudButton({
+  imageSrc,
   left,
   top,
   width,
@@ -18,54 +21,60 @@ export default function HudButton({
   active = false,
   onClick,
 }: HudButtonProps) {
+  const [pressed, setPressed] =
+    useState(false);
+
   return (
     <button
       type="button"
       onClick={onClick}
+      onMouseDown={() =>
+        setPressed(true)
+      }
+      onMouseUp={() =>
+        setPressed(false)
+      }
+      onMouseLeave={() =>
+        setPressed(false)
+      }
       style={{
         position: "absolute",
         left,
         top,
         width,
         height,
-
-        border: active
-          ? "2px solid rgba(250,204,21,.45)"
-          : "2px solid transparent",
-
-        borderRadius: "8px",
-
-        backgroundColor: active
-          ? "rgba(250,204,21,.08)"
-          : "transparent",
-
+        padding: 0,
+        border: "none",
+        background: "transparent",
         cursor: "pointer",
-
         pointerEvents: "auto",
+        zIndex: 60,
+      }}
+    >
+      <img
+        src={imageSrc}
+        alt=""
+        draggable={false}
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "contain",
 
-        transition:
-          "transform .12s ease, filter .12s ease, background-color .12s ease",
-      }}
-      onMouseDown={(e) => {
-        e.currentTarget.style.transform =
-          "translateY(5px) scale(0.95)";
-      }}
-      onMouseUp={(e) => {
-        e.currentTarget.style.transform =
-          "translateY(0px) scale(1)";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform =
-          "translateY(0px) scale(1)";
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.filter =
-          "brightness(1.15)";
-      }}
-      onMouseOut={(e) => {
-        e.currentTarget.style.filter =
-          "brightness(1)";
-      }}
-    />
+          transform: pressed
+            ? "translateY(6px) scale(0.96)"
+            : "translateY(0px) scale(1)",
+
+          filter: active
+            ? "brightness(1.12)"
+            : "brightness(1)",
+
+          transition:
+            "transform .12s ease, filter .12s ease",
+
+          pointerEvents: "none",
+          userSelect: "none",
+        }}
+      />
+    </button>
   );
 }
