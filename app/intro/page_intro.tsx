@@ -8,6 +8,7 @@ import {
 } from "react";
 
 import { useRouter } from "next/navigation";
+import { useScreenSize } from "../hooks/useScreenSize";
 
 const dialogos = [
   "Bem-vindo ao Movie Studio Tycoon!",
@@ -28,6 +29,13 @@ const localizacoes = [
 
 export default function PageIntro() {
   const router = useRouter();
+
+  const { width } = useScreenSize();
+
+  const isMobile = width < 768;
+
+  const isTablet =
+    width >= 768 && width < 1280;
 
   const [step, setStep] = useState(0);
   const [typingDone, setTypingDone] = useState(false);
@@ -135,7 +143,7 @@ export default function PageIntro() {
         return;
       }
 
-      if (estaNaLocalizacao && location) {
+      if (estaNaLocalizacao `` location) {
         confirmarLocal();
       }
     };
@@ -211,17 +219,26 @@ export default function PageIntro() {
   style={{
     position: "absolute",
 
-    /* Move o conjunto para a esquerda */
-    left: "-3vw",
+    left: isMobile
+      ? "-15vw"
+      : isTablet
+      ? "-10vw"
+      : "-6vw",
 
     bottom: 0,
 
-    /* Área reservada para o Victor e o megafone */
-    width: "54vw",
+    width: isMobile
+      ? "92vw"
+      : isTablet
+      ? "72vw"
+      : "62vw",
+
     height: "100vh",
 
     overflow: "hidden",
+
     pointerEvents: "none",
+
     zIndex: 20,
   }}
 >
@@ -232,26 +249,37 @@ export default function PageIntro() {
     style={{
       position: "absolute",
 
-      /* Ajuste interno da imagem */
       left: 0,
-      bottom: "-64vh",
 
-      /* Mantém o enquadramento grande do tronco */
-      height: "170vh",
+      bottom: isMobile
+        ? "-50vh"
+        : isTablet
+        ? "-56vh"
+        : "-58vh",
+
+      height: isMobile
+        ? "140vh"
+        : isTablet
+        ? "155vh"
+        : "170vh",
+
       width: "auto",
+
       maxWidth: "none",
 
       objectFit: "contain",
       objectPosition: "left bottom",
 
-      userSelect: "none",
       pointerEvents: "none",
 
+      userSelect: "none",
+
       filter:
-        "drop-shadow(12px 9px 16px rgba(0, 0, 0, 0.5))",
+        "drop-shadow(12px 9px 16px rgba(0,0,0,0.5))",
     }}
   />
 </div>
+
 
       {/* BALÃO DE DIÁLOGO */}
 
@@ -265,10 +293,21 @@ export default function PageIntro() {
         }
         style={{
           position: "absolute",
-          left: "52.5%",
-          top: "19%",
-          width: "min(560px, 42vw)",
-          minWidth: "360px",
+         left: isMobile
+  ? "5%"
+  : "52.5%",
+
+top: isMobile
+  ? "55%"
+  : "19%",
+
+width: isMobile
+  ? "90vw"
+  : "min(560px, 42vw)",
+
+minWidth: isMobile
+  ? "90vw"
+  : "360px",
           minHeight: "210px",
           zIndex: 30,
         }}
