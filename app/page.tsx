@@ -6,25 +6,28 @@ export default function HomePage() {
   const router = useRouter();
 
   return (
-    <main className="relative h-screen overflow-hidden">
-
+    <main
+      className="
+        relative
+        flex
+        min-h-screen
+        flex-col
+        items-center
+        justify-center
+        overflow-hidden
+      "
+    >
       {/* Fundo */}
 
       <img
         src="/images/background.jpg"
-        alt="Background"
-        className="
-          absolute
-          inset-0
-          w-full
-          h-full
-          object-cover
-        "
+        alt="Movie Studio Tycoon"
+        className="absolute inset-0 h-full w-full object-cover"
       />
 
-      {/* Escurecedor */}
+      {/* Escurecimento */}
 
-      <div className="absolute inset-0 bg-black/50" />
+      <div className="absolute inset-0 bg-black/55" />
 
       {/* Conteúdo */}
 
@@ -35,26 +38,32 @@ export default function HomePage() {
           flex
           flex-col
           items-center
-          justify-center
-          h-full
-          text-white
         "
       >
-        <h1 className="text-7xl font-bold mb-10">
-          MOVIE STUDIO TYCOON
-        </h1>
+        {/* Logo */}
 
-        <div className="flex flex-col gap-4 w-80">
+        <img
+          src="/images/logo.png"
+          alt="Movie Studio Tycoon"
+          className="mb-10 w-[min(750px,85vw)] h-auto"
+          draggable={false}
+        />
 
+        {/* Botões */}
+
+        <div className="flex w-80 flex-col gap-4">
           <button
             onClick={() => router.push("/intro")}
             className="
-              bg-green-600
-              hover:bg-green-700
-              p-4
               rounded-xl
+              bg-green-600
+              px-6
+              py-4
               text-xl
               font-bold
+              text-white
+              transition
+              hover:bg-green-700
             "
           >
             Novo Jogo
@@ -62,19 +71,37 @@ export default function HomePage() {
 
           <button
             className="
-              bg-zinc-800
-              hover:bg-zinc-700
-              p-4
               rounded-xl
+              bg-zinc-800
+              px-6
+              py-4
               text-xl
+              font-bold
+              text-white
+              transition
+              hover:bg-zinc-700
             "
           >
-            Carregar Progresso
+            Carregar Jogo
           </button>
 
+          <button
+            className="
+              rounded-xl
+              bg-zinc-800
+              px-6
+              py-4
+              text-xl
+              font-bold
+              text-white
+              transition
+              hover:bg-zinc-700
+            "
+          >
+            Configurações
+          </button>
         </div>
       </div>
-
     </main>
   );
 }
