@@ -35,7 +35,7 @@ export default function PageIntro() {
   const isMobile = width <= 768;
 
   const isTablet =
-    width >= 768 && width < 1280;
+  width >= 768 && width < 1280;
 
   const [step, setStep] = useState(0);
   const [typingDone, setTypingDone] = useState(false);
@@ -313,7 +313,6 @@ export default function PageIntro() {
   minHeight: "210px",
 
   zIndex: 30,
-}}
         }}
         className="
           cursor-default
