@@ -43,6 +43,10 @@ export default function PageIntro() {
   const estaNaLocalizacao =
     step === 200;
 
+  /*
+   * Efeito de digitação semelhante aos diálogos
+   * dos jogos clássicos.
+   */
   useEffect(() => {
     if (!estaNaIntroducao) {
       return;
@@ -72,6 +76,10 @@ export default function PageIntro() {
     };
   }, [step, estaNaIntroducao]);
 
+  /*
+   * Primeiro clique durante a digitação mostra
+   * a frase inteira. O clique seguinte avança.
+   */
   const avancarDialogo = useCallback(() => {
     if (!estaNaIntroducao) {
       return;
@@ -130,9 +138,19 @@ export default function PageIntro() {
       location
     );
 
+    localStorage.setItem("level", "1");
+    localStorage.setItem("fame", "0");
+    localStorage.setItem("money", "100000");
+    localStorage.setItem("technology", "0");
+    localStorage.setItem("prestige", "0");
+    localStorage.setItem("year", "1980");
+
     router.push("/worldmap");
   }, [location, router]);
 
+  /*
+   * Controle pelo Enter.
+   */
   useEffect(() => {
     const aoPressionarTecla = (
       event: KeyboardEvent
@@ -151,11 +169,13 @@ export default function PageIntro() {
       if (estaEmCampo) {
         if (estaNoNomeDoJogador) {
           confirmarNome();
-        } else if (estaNoNomeDoEstudio) {
-          confirmarEstudio();
+          return;
         }
 
-        return;
+        if (estaNoNomeDoEstudio) {
+          confirmarEstudio();
+          return;
+        }
       }
 
       if (
@@ -226,7 +246,7 @@ export default function PageIntro() {
         }}
       />
 
-      {/* CONTRASTE */}
+      {/* CAMADA DE CONTRASTE */}
 
       <div
         style={{
@@ -239,39 +259,46 @@ export default function PageIntro() {
         }}
       />
 
-      {/* PERSONAGEM */}
+      {/* VICTOR */}
 
-      <div
+      <img
+        src="/images/mentor.png"
+        alt="Victor"
+        draggable={false}
         style={{
           position: "absolute",
-          left: "-1.5vw",
-          bottom: "-1.5vh",
-          width: "48vw",
-          height: "103vh",
-          overflow: "visible",
-          pointerEvents: "none",
+
+          /*
+           * Ajustes principais do personagem.
+           */
+          left: "0%",
+          bottom: "-4px",
+
+          /*
+           * A altura controla o tamanho principal.
+           * A largura automática preserva a proporção.
+           */
+          height: "92vh",
+          width: "auto",
+
+          /*
+           * Evita que a imagem ultrapasse demais
+           * a área do balão em telas muito largas.
+           */
+          maxWidth: "47vw",
+
+          objectFit: "contain",
+          objectPosition: "left bottom",
+
           zIndex: 20,
+
+          userSelect: "none",
+          pointerEvents: "none",
+
+          filter:
+            "drop-shadow(10px 8px 14px rgba(0, 0, 0, 0.48))",
         }}
-      >
-        <img
-          src="/images/mentor.png"
-          alt="Victor"
-          draggable={false}
-          style={{
-            position: "absolute",
-            left: 0,
-            bottom: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "contain",
-            objectPosition: "left bottom",
-            userSelect: "none",
-            pointerEvents: "none",
-            filter:
-              "drop-shadow(10px 8px 14px rgba(0, 0, 0, 0.48))",
-          }}
-        />
-      </div>
+      />
 
       {/* BALÃO DE DIÁLOGO */}
 
@@ -302,7 +329,7 @@ export default function PageIntro() {
           backdrop-blur-sm
         "
       >
-        {/* CONTORNO DA PONTA */}
+        {/* PONTA EXTERNA DO BALÃO */}
 
         <div
           style={{
@@ -320,7 +347,7 @@ export default function PageIntro() {
           }}
         />
 
-        {/* INTERIOR DA PONTA */}
+        {/* PONTA INTERNA DO BALÃO */}
 
         <div
           style={{
@@ -496,7 +523,7 @@ export default function PageIntro() {
           </>
         )}
 
-        {/* LOCALIZAÇÃO */}
+        {/* ESCOLHA DA LOCALIZAÇÃO */}
 
         {estaNaLocalizacao && (
           <>
