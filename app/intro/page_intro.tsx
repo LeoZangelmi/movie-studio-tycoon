@@ -46,11 +46,7 @@ export default function PageIntro() {
   const estaNaLocalizacao = step === 200;
 
   const avancarDialogo = useCallback(() => {
-    if (!estaNaIntroducao) {
-      return;
-    }
-
-    if (!typingDone) {
+    if (!estaNaIntroducao || !typingDone) {
       return;
     }
 
@@ -92,7 +88,6 @@ export default function PageIntro() {
     }
 
     localStorage.setItem("studioLocation", location);
-
     localStorage.setItem("level", "1");
     localStorage.setItem("fame", "0");
     localStorage.setItem("money", "100000");
@@ -125,8 +120,9 @@ export default function PageIntro() {
 
         if (estaNoNomeDoEstudio) {
           confirmarEstudio();
-          return;
         }
+
+        return;
       }
 
       if (
@@ -208,55 +204,49 @@ export default function PageIntro() {
         }}
       />
 
-      {/* VICTOR: ENQUADRAMENTO DO TRONCO PARA CIMA */}
+      {/* VICTOR, ENQUADRADO DO TRONCO PARA CIMA */}
 
-<div
-  style={{
-    position: "absolute",
-    left: "1.5vw",
-    bottom: 0,
+      <div
+        style={{
+          position: "absolute",
+          left: "1.5vw",
+          bottom: 0,
+          width: "48vw",
+          height: "100vh",
+          overflow: "hidden",
+          pointerEvents: "none",
+          zIndex: 20,
+        }}
+      >
+        <img
+          src="/images/mentor.png"
+          alt="Victor"
+          draggable={false}
+          style={{
+            position: "absolute",
 
-    /*
-     * Área visível do personagem.
-     * Tudo abaixo dessa área será escondido.
-     */
-    width: "50vw",
-    height: "100vh",
+            /*
+             * A imagem é ampliada e deslocada para baixo.
+             * Assim, pernas e pés ficam fora do enquadramento.
+             */
+            left: "0",
+            bottom: "-78vh",
+            height: "178vh",
+            width: "auto",
 
-    overflow: "hidden",
-    pointerEvents: "none",
-    zIndex: 20,
-  }}
->
-  <img
-    src="/images/mentor.png"
-    alt="Victor"
-    draggable={false}
-    style={{
-      position: "absolute",
+            maxWidth: "none",
 
-      /*
-       * A imagem fica muito maior que a tela.
-       * A parte inferior desce para fora do contêiner,
-       * deixando somente o tronco e a cabeça visíveis.
-       */
-      left: "-1vw",
-      bottom: "-74vh",
+            objectFit: "contain",
+            objectPosition: "left bottom",
 
-      height: "170vh",
-      width: "auto",
+            userSelect: "none",
+            pointerEvents: "none",
 
-      objectFit: "contain",
-      objectPosition: "left bottom",
-
-      userSelect: "none",
-      pointerEvents: "none",
-
-      filter:
-        "drop-shadow(12px 9px 16px rgba(0, 0, 0, 0.5))",
-    }}
-  />
-</div>
+            filter:
+              "drop-shadow(12px 9px 16px rgba(0, 0, 0, 0.5))",
+          }}
+        />
+      </div>
 
       {/* BALÃO DE DIÁLOGO */}
 
@@ -289,7 +279,7 @@ export default function PageIntro() {
           backdrop-blur-sm
         "
       >
-        {/* PONTA EXTERNA DO BALÃO */}
+        {/* CONTORNO DA PONTA */}
 
         <div
           style={{
@@ -304,7 +294,7 @@ export default function PageIntro() {
           }}
         />
 
-        {/* PONTA INTERNA DO BALÃO */}
+        {/* INTERIOR DA PONTA */}
 
         <div
           style={{
@@ -332,7 +322,9 @@ export default function PageIntro() {
               key={step}
               text={dialogos[step]}
               speed={30}
-              onComplete={() => setTypingDone(true)}
+              onComplete={() => {
+                setTypingDone(true);
+              }}
             />
 
             {typingDone &&
@@ -471,7 +463,7 @@ export default function PageIntro() {
           </>
         )}
 
-        {/* ESCOLHA DA LOCALIZAÇÃO */}
+        {/* LOCALIZAÇÃO */}
 
         {estaNaLocalizacao && (
           <>
@@ -532,51 +524,74 @@ export default function PageIntro() {
 
 type TypewriterTextProps = {
   text: string;
-  speed: number;
+  speed?: number;
   onComplete: () => void;
 };
 
 function TypewriterText({
   text,
-  speed,
+  speed = 30,
   onComplete,
 }: TypewriterTextProps) {
-  const textRef = useRef<HTMLParagraphElement>(null);
+  const [visibleCharacters, setVisibleCharacters] =
+    useState(0);
+
+  const onCompleteRef = useRef(onComplete);
+  const completionCalledRef = useRef(false);
 
   useEffect(() => {
-    const paragraph = textRef.current;
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
 
-    if (!paragraph) {
-      return;
-    }
-
-    paragraph.textContent = "";
-
-    let currentIndex = 0;
+  useEffect(() => {
+    completionCalledRef.current = false;
 
     const timer = window.setInterval(() => {
-      currentIndex += 1;
+      setVisibleCharacters((currentValue) => {
+        const nextValue = Math.min(
+          currentValue + 1,
+          text.length
+        );
 
-      paragraph.textContent = text.slice(
-        0,
-        currentIndex
-      );
+        if (
+          nextValue >= text.length &&
+          !completionCalledRef.current
+        ) {
+          completionCalledRef.current = true;
 
-      if (currentIndex >= text.length) {
-        window.clearInterval(timer);
-        onComplete();
-      }
+          window.clearInterval(timer);
+
+          window.setTimeout(() => {
+            onCompleteRef.current();
+          }, 0);
+        }
+
+        return nextValue;
+      });
     }, speed);
 
     return () => {
       window.clearInterval(timer);
     };
-  }, [onComplete, speed, text]);
+  }, [speed, text]);
+
+  const visibleText = text.slice(
+    0,
+    visibleCharacters
+  );
+
+  const isTyping =
+    visibleCharacters < text.length;
 
   return (
-    <p
-      ref={textRef}
-      className="min-h-[90px] text-2xl leading-relaxed tracking-wide"
-    />
+    <p className="min-h-[90px] text-2xl leading-relaxed tracking-wide">
+      {visibleText}
+
+      {isTyping && (
+        <span className="ml-1 inline-block animate-pulse">
+          ▌
+        </span>
+      )}
+    </p>
   );
 }
