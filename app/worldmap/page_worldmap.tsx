@@ -294,59 +294,59 @@ export default function PageWorldMap() {
 
           {/* BOTÃO MAPA */}
 
-          <HudButton
-            left="71.75%"
-            top="53%"
-            width="5.55%"
-            height="39%"
-            label="Mapa"
-            active
-            onClick={() => router.push("/worldmap")}
-          />
+<HudButton
+  left="74.4%"
+  top="63%"
+  width="3.9%"
+  height="21%"
+  label="Mapa"
+  active
+  onClick={() => router.push("/worldmap")}
+/>
 
-          {/* BOTÃO ESTÚDIOS */}
+{/* BOTÃO ESTÚDIOS */}
 
-          <HudButton
-            left="77.45%"
-            top="53%"
-            width="5.5%"
-            height="39%"
-            label="Estúdios"
-            onClick={() => router.push("/studio")}
-          />
+<HudButton
+  left="80.0%"
+  top="63%"
+  width="3.9%"
+  height="21%"
+  label="Estúdios"
+  onClick={() => router.push("/studio")}
+/>
 
-          {/* BOTÃO EVENTOS */}
+{/* BOTÃO EVENTOS */}
 
-          <HudButton
-            left="83.1%"
-            top="53%"
-            width="5.4%"
-            height="39%"
-            label="Eventos"
-            onClick={() => router.push("/events")}
-          />
+<HudButton
+  left="85.6%"
+  top="63%"
+  width="3.9%"
+  height="21%"
+  label="Eventos"
+  onClick={() => router.push("/events")}
+/>
 
-          {/* BOTÃO MISSÕES */}
+{/* BOTÃO MISSÕES */}
 
-          <HudButton
-            left="88.7%"
-            top="53%"
-            width="5.4%"
-            height="39%"
-            label="Missões"
-            onClick={() => router.push("/missions")}
-          />
+<HudButton
+  left="91.1%"
+  top="63%"
+  width="3.9%"
+  height="21%"
+  label="Missões"
+  onClick={() => router.push("/missions")}
+/>
 
-          {/* BOTÃO OPÇÕES */}
+{/* BOTÃO OPÇÕES */}
 
-          <HudButton
-            left="94.35%"
-            top="53%"
-            width="5.1%"
-            height="39%"
-            label="Opções"
-            onClick={() => router.push("/settings")}
-          />
+<HudButton
+  left="96.4%"
+  top="63%"
+  width="3.5%"
+  height="21%"
+  label="Opções"
+  onClick={() => router.push("/settings")}
+/>
         </div>
       </section>
     </main>

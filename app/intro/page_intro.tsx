@@ -213,7 +213,7 @@ export default function PageIntro() {
         }}
       />
 
-      {/* VICTOR, TRONCO PARA CIMA */}
+      {/* VICTOR */}
 
 <div
   style={{
@@ -292,24 +292,28 @@ export default function PageIntro() {
             : undefined
         }
         style={{
-          position: "absolute",
-         left: isMobile
-  ? "5%"
-  : "52.5%",
+  position: "absolute",
 
-top: isMobile
-  ? "55%"
-  : "19%",
+  left: isMobile
+    ? "5%"
+    : "52.5%",
 
-width: isMobile
-  ? "90vw"
-  : "min(560px, 42vw)",
+  top: isMobile
+    ? "55%"
+    : "19%",
 
-minWidth: isMobile
-  ? "90vw"
-  : "360px",
-          minHeight: "210px",
-          zIndex: 30,
+  width: isMobile
+    ? "90vw"
+    : "min(560px, 42vw)",
+
+  minWidth: isMobile
+    ? "90vw"
+    : "360px",
+
+  minHeight: "210px",
+
+  zIndex: 30,
+}}
         }}
         className="
           cursor-default
