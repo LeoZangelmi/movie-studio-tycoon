@@ -15,12 +15,12 @@ const dialogos = [
   "Eu vou ajudá-lo a construir o maior estúdio cinematográfico do mundo.",
   "Você poderá produzir filmes e criar franquias famosas.",
   "Mas antes de começarmos...",
-  "Como você gostaria de ser chamado?",
+  "Qual é seu nome?",
 ];
 
 const localizacoes = [
   "Hollywood",
-  "São Bernardo do Campo",
+  "Brasil",
   "Inglaterra",
   "Mumbai",
   "Tóquio",
