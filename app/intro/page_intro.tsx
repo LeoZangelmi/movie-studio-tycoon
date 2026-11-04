@@ -88,6 +88,7 @@ export default function PageIntro() {
     }
 
     localStorage.setItem("studioLocation", location);
+
     localStorage.setItem("level", "1");
     localStorage.setItem("fame", "0");
     localStorage.setItem("money", "100000");
@@ -211,7 +212,7 @@ export default function PageIntro() {
           position: "absolute",
           left: "1.5vw",
           bottom: 0,
-          width: "48vw",
+          width: "49vw",
           height: "100vh",
           overflow: "hidden",
           pointerEvents: "none",
@@ -226,14 +227,14 @@ export default function PageIntro() {
             position: "absolute",
 
             /*
-             * A imagem é ampliada e deslocada para baixo.
-             * Assim, pernas e pés ficam fora do enquadramento.
+             * Menos negativo significa mais para cima.
+             * Antes estava em -78vh.
              */
             left: "0",
-            bottom: "-78vh",
+            bottom: "-68vh",
+
             height: "178vh",
             width: "auto",
-
             maxWidth: "none",
 
             objectFit: "contain",
@@ -279,7 +280,7 @@ export default function PageIntro() {
           backdrop-blur-sm
         "
       >
-        {/* CONTORNO DA PONTA */}
+        {/* PONTA EXTERNA */}
 
         <div
           style={{
@@ -294,7 +295,7 @@ export default function PageIntro() {
           }}
         />
 
-        {/* INTERIOR DA PONTA */}
+        {/* PONTA INTERNA */}
 
         <div
           style={{
@@ -319,7 +320,7 @@ export default function PageIntro() {
         {estaNaIntroducao && (
           <>
             <TypewriterText
-              key={step}
+              key={`dialogo-${step}`}
               text={dialogos[step]}
               speed={30}
               onComplete={() => {
@@ -536,15 +537,15 @@ function TypewriterText({
   const [visibleCharacters, setVisibleCharacters] =
     useState(0);
 
+  const completedRef = useRef(false);
   const onCompleteRef = useRef(onComplete);
-  const completionCalledRef = useRef(false);
 
   useEffect(() => {
     onCompleteRef.current = onComplete;
   }, [onComplete]);
 
   useEffect(() => {
-    completionCalledRef.current = false;
+    completedRef.current = false;
 
     const timer = window.setInterval(() => {
       setVisibleCharacters((currentValue) => {
@@ -554,10 +555,10 @@ function TypewriterText({
         );
 
         if (
-          nextValue >= text.length &&
-          !completionCalledRef.current
+          nextValue === text.length &&
+          !completedRef.current
         ) {
-          completionCalledRef.current = true;
+          completedRef.current = true;
 
           window.clearInterval(timer);
 
