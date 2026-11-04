@@ -31,10 +31,17 @@ export default function PageIntro() {
   const [studioName, setStudioName] = useState("");
   const [location, setLocation] = useState("");
 
-  const estaNaIntroducao = step >= 0 && step < dialogos.length;
-  const estaNoNomeDoJogador = step === dialogos.length - 1;
-  const estaNoNomeDoEstudio = step === 100;
-  const estaNaLocalizacao = step === 200;
+  const estaNaIntroducao =
+    step >= 0 && step < dialogos.length;
+
+  const estaNoNomeDoJogador =
+    step === dialogos.length - 1;
+
+  const estaNoNomeDoEstudio =
+    step === 100;
+
+  const estaNaLocalizacao =
+    step === 200;
 
   useEffect(() => {
     if (!estaNaIntroducao) {
@@ -49,7 +56,10 @@ export default function PageIntro() {
 
     const timer = window.setInterval(() => {
       indice += 1;
-      setDisplayText(textoCompleto.slice(0, indice));
+
+      setDisplayText(
+        textoCompleto.slice(0, indice)
+      );
 
       if (indice >= textoCompleto.length) {
         window.clearInterval(timer);
@@ -85,7 +95,11 @@ export default function PageIntro() {
       return;
     }
 
-    localStorage.setItem("playerName", nomeLimpo);
+    localStorage.setItem(
+      "playerName",
+      nomeLimpo
+    );
+
     setPlayerName(nomeLimpo);
     setStep(100);
   };
@@ -97,7 +111,11 @@ export default function PageIntro() {
       return;
     }
 
-    localStorage.setItem("studioName", nomeLimpo);
+    localStorage.setItem(
+      "studioName",
+      nomeLimpo
+    );
+
     setStudioName(nomeLimpo);
     setStep(200);
   };
@@ -107,17 +125,25 @@ export default function PageIntro() {
       return;
     }
 
-    localStorage.setItem("studioLocation", location);
+    localStorage.setItem(
+      "studioLocation",
+      location
+    );
+
     router.push("/worldmap");
   };
 
   useEffect(() => {
-    const aoPressionarTecla = (event: KeyboardEvent) => {
+    const aoPressionarTecla = (
+      event: KeyboardEvent
+    ) => {
       if (event.key !== "Enter") {
         return;
       }
 
-      const elementoAtivo = document.activeElement;
+      const elementoAtivo =
+        document.activeElement;
+
       const estaEmCampo =
         elementoAtivo instanceof HTMLInputElement ||
         elementoAtivo instanceof HTMLTextAreaElement;
@@ -132,19 +158,31 @@ export default function PageIntro() {
         return;
       }
 
-      if (estaNaIntroducao && !estaNoNomeDoJogador) {
+      if (
+        estaNaIntroducao &&
+        !estaNoNomeDoJogador
+      ) {
         avancarDialogo();
       }
 
-      if (estaNaLocalizacao && location) {
+      if (
+        estaNaLocalizacao &&
+        location
+      ) {
         confirmarLocal();
       }
     };
 
-    window.addEventListener("keydown", aoPressionarTecla);
+    window.addEventListener(
+      "keydown",
+      aoPressionarTecla
+    );
 
     return () => {
-      window.removeEventListener("keydown", aoPressionarTecla);
+      window.removeEventListener(
+        "keydown",
+        aoPressionarTecla
+      );
     };
   }, [
     step,
@@ -160,62 +198,78 @@ export default function PageIntro() {
 
   return (
     <main className="relative h-screen w-screen overflow-hidden bg-black">
-      {/* Fundo */}
+      {/* CENÁRIO */}
+
       <img
         src="/images/intro_background.jpg"
         alt="Cenário do estúdio"
+        draggable={false}
         className="absolute inset-0 h-full w-full object-cover"
       />
 
-      {/* Camada de contraste */}
+      {/* CONTRASTE */}
+
       <div className="absolute inset-0 bg-black/10" />
 
-   {/* Personagem */}
+      {/* PERSONAGEM */}
 
-<div
-  style={{
-    position: "absolute",
-    left: "1.5%",
-    bottom: 0,
-    width: "32vw",
-    height: "76vh",
-    zIndex: 20,
-    pointerEvents: "none",
-  }}
->
-  <img
-    src="/images/mentor.png"
-    alt="Victor"
-    draggable={false}
-    style={{
-      position: "absolute",
-      left: 0,
-      bottom: 0,
-      width: "100%",
-      height: "100%",
-      objectFit: "contain",
-      objectPosition: "left bottom",
-      userSelect: "none",
-      pointerEvents: "none",
-      filter:
-        "drop-shadow(8px 8px 12px rgba(0, 0, 0, 0.45))",
-    }}
-  />
-</div>
+      <img
+        src="/images/mentor.png"
+        alt="Victor"
+        draggable={false}
+        style={{
+          position: "absolute",
 
-      {/* Balão, posicionado depois da abertura do megafone */}
+          /*
+           * Estes valores deixam o personagem menor,
+           * totalmente visível e próximo da referência.
+           */
+          left: "1.5%",
+          bottom: "-2px",
+
+          width:
+            "clamp(240px, 20vw, 380px)",
+
+          height: "auto",
+          maxHeight: "78vh",
+
+          objectFit: "contain",
+          objectPosition: "left bottom",
+
+          zIndex: 20,
+
+          userSelect: "none",
+          pointerEvents: "none",
+
+          filter:
+            "drop-shadow(8px 8px 12px rgba(0, 0, 0, 0.45))",
+        }}
+      />
+
+      {/* BALÃO DE DIÁLOGO */}
+
       <section
         onClick={
-          estaNaIntroducao && !estaNoNomeDoJogador
+          estaNaIntroducao &&
+          !estaNoNomeDoJogador
             ? avancarDialogo
             : undefined
         }
         style={{
           position: "absolute",
+
+          /*
+           * O balão permanece na posição anterior,
+           * que já estava correta.
+           */
           left: "52.5%",
           top: "19%",
-          width: "min(560px, 42vw)",
+
+          width:
+            "min(560px, 42vw)",
+
           minHeight: "210px",
+
           zIndex: 30,
         }}
         className="
@@ -230,31 +284,47 @@ export default function PageIntro() {
           backdrop-blur-sm
         "
       >
-        {/* Ponta alinhada à abertura do megafone */}
+        {/* CONTORNO DA PONTA */}
+
         <div
           style={{
             position: "absolute",
             left: "-42px",
             top: "88px",
+
             width: 0,
             height: 0,
-            borderTop: "25px solid transparent",
-            borderBottom: "25px solid transparent",
-            borderRight: "42px solid white",
+
+            borderTop:
+              "25px solid transparent",
+
+            borderBottom:
+              "25px solid transparent",
+
+            borderRight:
+              "42px solid white",
           }}
         />
 
-        {/* Parte interna escura da ponta */}
+        {/* INTERIOR DA PONTA */}
+
         <div
           style={{
             position: "absolute",
             left: "-33px",
             top: "93px",
+
             width: 0,
             height: 0,
-            borderTop: "20px solid transparent",
-            borderBottom: "20px solid transparent",
-            borderRight: "34px solid rgba(0, 0, 0, 0.85)",
+
+            borderTop:
+              "20px solid transparent",
+
+            borderBottom:
+              "20px solid transparent",
+
+            borderRight:
+              "34px solid rgba(0, 0, 0, 0.85)",
           }}
         />
 
@@ -262,86 +332,102 @@ export default function PageIntro() {
           Victor
         </h2>
 
-        {/* Conversa inicial */}
+        {/* CONVERSA INICIAL */}
+
         {estaNaIntroducao && (
           <>
             <p className="min-h-[90px] text-2xl leading-relaxed tracking-wide">
               {displayText}
+
               {!typingDone && (
-                <span className="ml-1 inline-block animate-pulse">▌</span>
+                <span className="ml-1 inline-block animate-pulse">
+                  ▌
+                </span>
               )}
             </p>
 
-            {typingDone && !estaNoNomeDoJogador && (
-              <button
-                type="button"
-                onClick={(event) => {
-                  event.stopPropagation();
-                  avancarDialogo();
-                }}
-                className="
-                  mt-5
-                  flex
-                  w-full
-                  items-center
-                  justify-end
-                  gap-2
-                  text-sm
-                  text-zinc-300
-                "
-              >
-                Clique ou pressione Enter
-                <span className="animate-bounce text-2xl text-white">▼</span>
-              </button>
-            )}
-
-            {typingDone && estaNoNomeDoJogador && (
-              <div className="mt-5">
-                <input
-                  type="text"
-                  value={playerName}
-                  onChange={(event) => setPlayerName(event.target.value)}
-                  placeholder="Digite seu nome..."
-                  autoFocus
-                  className="
-                    w-full
-                    rounded-lg
-                    border
-                    border-zinc-600
-                    bg-zinc-900
-                    p-4
-                    text-lg
-                    text-white
-                    outline-none
-                    focus:border-green-500
-                  "
-                />
-
+            {typingDone &&
+              !estaNoNomeDoJogador && (
                 <button
                   type="button"
-                  onClick={confirmarNome}
-                  disabled={!playerName.trim()}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    avancarDialogo();
+                  }}
                   className="
-                    mt-4
-                    rounded-lg
-                    bg-green-600
-                    px-6
-                    py-3
-                    font-bold
-                    transition
-                    hover:bg-green-700
-                    disabled:cursor-not-allowed
-                    disabled:opacity-40
+                    mt-5
+                    flex
+                    w-full
+                    items-center
+                    justify-end
+                    gap-2
+                    text-sm
+                    text-zinc-300
                   "
                 >
-                  Confirmar nome
+                  Clique ou pressione Enter
+
+                  <span className="animate-bounce text-2xl text-white">
+                    ▼
+                  </span>
                 </button>
-              </div>
-            )}
+              )}
+
+            {typingDone &&
+              estaNoNomeDoJogador && (
+                <div className="mt-5">
+                  <input
+                    type="text"
+                    value={playerName}
+                    onChange={(event) =>
+                      setPlayerName(
+                        event.target.value
+                      )
+                    }
+                    placeholder="Digite seu nome..."
+                    autoFocus
+                    className="
+                      w-full
+                      rounded-lg
+                      border
+                      border-zinc-600
+                      bg-zinc-900
+                      p-4
+                      text-lg
+                      text-white
+                      outline-none
+                      focus:border-green-500
+                    "
+                  />
+
+                  <button
+                    type="button"
+                    onClick={confirmarNome}
+                    disabled={
+                      !playerName.trim()
+                    }
+                    className="
+                      mt-4
+                      rounded-lg
+                      bg-green-600
+                      px-6
+                      py-3
+                      font-bold
+                      transition
+                      hover:bg-green-700
+                      disabled:cursor-not-allowed
+                      disabled:opacity-40
+                    "
+                  >
+                    Confirmar nome
+                  </button>
+                </div>
+              )}
           </>
         )}
 
-        {/* Nome do estúdio */}
+        {/* NOME DO ESTÚDIO */}
+
         {estaNoNomeDoEstudio && (
           <>
             <p className="mb-3 text-2xl leading-relaxed">
@@ -359,7 +445,11 @@ export default function PageIntro() {
             <input
               type="text"
               value={studioName}
-              onChange={(event) => setStudioName(event.target.value)}
+              onChange={(event) =>
+                setStudioName(
+                  event.target.value
+                )
+              }
               placeholder="Nome do estúdio..."
               autoFocus
               className="
@@ -398,7 +488,8 @@ export default function PageIntro() {
           </>
         )}
 
-        {/* Escolha da localização */}
+        {/* ESCOLHA DA LOCALIZAÇÃO */}
+
         {estaNaLocalizacao && (
           <>
             <p className="mb-5 text-2xl leading-relaxed">
@@ -406,28 +497,32 @@ export default function PageIntro() {
             </p>
 
             <div className="grid max-h-[300px] gap-2 overflow-y-auto pr-1">
-              {localizacoes.map((local) => (
-                <button
-                  key={local}
-                  type="button"
-                  onClick={() => setLocation(local)}
-                  className={`
-                    rounded-lg
-                    border
-                    px-4
-                    py-3
-                    text-left
-                    transition
-                    ${
-                      location === local
-                        ? "border-green-400 bg-green-600"
-                        : "border-zinc-600 bg-zinc-900 hover:bg-zinc-800"
+              {localizacoes.map(
+                (local) => (
+                  <button
+                    key={local}
+                    type="button"
+                    onClick={() =>
+                      setLocation(local)
                     }
-                  `}
-                >
-                  {local}
-                </button>
-              ))}
+                    className={`
+                      rounded-lg
+                      border
+                      px-4
+                      py-3
+                      text-left
+                      transition
+                      ${
+                        location === local
+                          ? "border-green-400 bg-green-600"
+                          : "border-zinc-600 bg-zinc-900 hover:bg-zinc-800"
+                      }
+                    `}
+                  >
+                    {local}
+                  </button>
+                )
+              )}
             </div>
 
             <button
