@@ -32,7 +32,7 @@ export default function PageIntro() {
 
   const { width } = useScreenSize();
 
-  const isMobile = width < 768;
+  const isMobile = width <= 768;
 
   const isTablet =
     width >= 768 && width < 1280;
@@ -143,7 +143,7 @@ export default function PageIntro() {
         return;
       }
 
-      if (estaNaLocalizacao `` location) {
+      if (estaNaLocalizacao && location) {
         confirmarLocal();
       }
     };
