@@ -43,11 +43,17 @@ export default function HudButton({
         top,
         width,
         height,
+
         padding: 0,
+
         border: "none",
+
         background: "transparent",
+
         cursor: "pointer",
+
         pointerEvents: "auto",
+
         zIndex: 60,
       }}
     >
