@@ -208,40 +208,55 @@ export default function PageIntro() {
         }}
       />
 
-      {/* VICTOR */}
+      {/* VICTOR: ENQUADRAMENTO DO TRONCO PARA CIMA */}
 
-      <img
-        src="/images/mentor.png"
-        alt="Victor"
-        draggable={false}
-        style={{
-          position: "absolute",
+<div
+  style={{
+    position: "absolute",
+    left: "1.5vw",
+    bottom: 0,
 
-          /*
-           * Posição do Victor:
-           * mais para a direita e mais para baixo.
-           */
-          left: "4vw",
-          bottom: "-70px",
+    /*
+     * Área visível do personagem.
+     * Tudo abaixo dessa área será escondido.
+     */
+    width: "50vw",
+    height: "100vh",
 
-          /*
-           * Tamanho grande, próximo da referência.
-           */
-          height: "96vh",
-          width: "auto",
+    overflow: "hidden",
+    pointerEvents: "none",
+    zIndex: 20,
+  }}
+>
+  <img
+    src="/images/mentor.png"
+    alt="Victor"
+    draggable={false}
+    style={{
+      position: "absolute",
 
-          objectFit: "contain",
-          objectPosition: "left bottom",
+      /*
+       * A imagem fica muito maior que a tela.
+       * A parte inferior desce para fora do contêiner,
+       * deixando somente o tronco e a cabeça visíveis.
+       */
+      left: "-1vw",
+      bottom: "-74vh",
 
-          zIndex: 20,
+      height: "170vh",
+      width: "auto",
 
-          userSelect: "none",
-          pointerEvents: "none",
+      objectFit: "contain",
+      objectPosition: "left bottom",
 
-          filter:
-            "drop-shadow(10px 8px 14px rgba(0, 0, 0, 0.48))",
-        }}
-      />
+      userSelect: "none",
+      pointerEvents: "none",
+
+      filter:
+        "drop-shadow(12px 9px 16px rgba(0, 0, 0, 0.5))",
+    }}
+  />
+</div>
 
       {/* BALÃO DE DIÁLOGO */}
 
