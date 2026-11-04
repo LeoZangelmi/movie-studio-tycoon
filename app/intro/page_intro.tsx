@@ -288,7 +288,7 @@ export default function PageIntro() {
     estaNaIntroducao &&
     !estaNoNomeDoJogador &&
     typingDone
-      ? avancarDialogo
+      ? avancarDialogos
       : undefined
   }
   style={{
