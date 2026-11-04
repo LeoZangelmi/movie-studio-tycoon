@@ -284,47 +284,48 @@ export default function PageIntro() {
       {/* BALÃO DE DIÁLOGO */}
 
       <section
-        onClick={
-          estaNaIntroducao &&
-          !estaNoNomeDoJogador &&
-          typingDone
-            ? avancarDialogo
-            : undefined
-        }
-        style={{
-  position: "absolute",
+  onClick={
+    estaNaIntroducao &&
+    !estaNoNomeDoJogador &&
+    typingDone
+      ? avancarDialogo
+      : undefined
+  }
+  style={{
+    position: "absolute",
 
-  left: isMobile
-    ? "5%"
-    : "52.5%",
+    left: isMobile
+      ? "5%"
+      : "52.5%",
 
-  top: isMobile
-    ? "55%"
-    : "19%",
+    top: isMobile
+      ? "55%"
+      : "19%",
 
-  width: isMobile
-    ? "90vw"
-    : "min(560px, 42vw)",
+    width: isMobile
+      ? "90vw"
+      : "min(560px, 42vw)",
 
-  minWidth: isMobile
-    ? "90vw"
-    : "360px",
+    minWidth: isMobile
+      ? "90vw"
+      : "360px",
 
-  minHeight: "210px",
+    minHeight: "210px",
 
-  zIndex: 30,
-        }}
-        className="
-          cursor-default
-          rounded-2xl
-          border-4
-          border-white
-          bg-black/85
-          p-6
-          text-white
-          shadow-2xl
-          backdrop-blur-sm
-        "
+    zIndex: 30,
+  }}
+  className="
+    cursor-default
+    rounded-2xl
+    border-4
+    border-white
+    bg-black/85
+    p-6
+    text-white
+    shadow-2xl
+    backdrop-blur-sm
+  "
+>
       >
         {/* PONTA EXTERNA */}
 
