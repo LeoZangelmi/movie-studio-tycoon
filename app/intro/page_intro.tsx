@@ -1,6 +1,12 @@
 ﻿"use client";
 
-import { useCallback, useEffect, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+
 import { useRouter } from "next/navigation";
 
 const dialogos = [
@@ -24,7 +30,6 @@ export default function PageIntro() {
   const router = useRouter();
 
   const [step, setStep] = useState(0);
-  const [displayText, setDisplayText] = useState("");
   const [typingDone, setTypingDone] = useState(false);
 
   const [playerName, setPlayerName] = useState("");
@@ -37,49 +42,9 @@ export default function PageIntro() {
   const estaNoNomeDoJogador =
     step === dialogos.length - 1;
 
-  const estaNoNomeDoEstudio =
-    step === 100;
+  const estaNoNomeDoEstudio = step === 100;
+  const estaNaLocalizacao = step === 200;
 
-  const estaNaLocalizacao =
-    step === 200;
-
-  /*
-   * Efeito de digitação semelhante aos diálogos
-   * dos jogos clássicos.
-   */
-  useEffect(() => {
-    if (!estaNaIntroducao) {
-      return;
-    }
-
-    const textoCompleto = dialogos[step];
-    let indice = 0;
-
-    setDisplayText("");
-    setTypingDone(false);
-
-    const timer = window.setInterval(() => {
-      indice += 1;
-
-      setDisplayText(
-        textoCompleto.slice(0, indice)
-      );
-
-      if (indice >= textoCompleto.length) {
-        window.clearInterval(timer);
-        setTypingDone(true);
-      }
-    }, 30);
-
-    return () => {
-      window.clearInterval(timer);
-    };
-  }, [step, estaNaIntroducao]);
-
-  /*
-   * Primeiro clique durante a digitação mostra
-   * a frase inteira. O clique seguinte avança.
-   */
   const avancarDialogo = useCallback(() => {
     if (!estaNaIntroducao) {
       return;
@@ -88,10 +53,9 @@ export default function PageIntro() {
     if (!typingDone) {
       return;
     }
-    setDisplayText(dialogos[step]);
-    setTypingDone(true);
 
     if (step < dialogos.length - 1) {
+      setTypingDone(false);
       setStep((stepAtual) => stepAtual + 1);
     }
   }, [estaNaIntroducao, step, typingDone]);
@@ -103,10 +67,7 @@ export default function PageIntro() {
       return;
     }
 
-    localStorage.setItem(
-      "playerName",
-      nomeLimpo
-    );
+    localStorage.setItem("playerName", nomeLimpo);
 
     setPlayerName(nomeLimpo);
     setStep(100);
@@ -119,10 +80,7 @@ export default function PageIntro() {
       return;
     }
 
-    localStorage.setItem(
-      "studioName",
-      nomeLimpo
-    );
+    localStorage.setItem("studioName", nomeLimpo);
 
     setStudioName(nomeLimpo);
     setStep(200);
@@ -133,10 +91,7 @@ export default function PageIntro() {
       return;
     }
 
-    localStorage.setItem(
-      "studioLocation",
-      location
-    );
+    localStorage.setItem("studioLocation", location);
 
     localStorage.setItem("level", "1");
     localStorage.setItem("fame", "0");
@@ -148,9 +103,6 @@ export default function PageIntro() {
     router.push("/worldmap");
   }, [location, router]);
 
-  /*
-   * Controle pelo Enter.
-   */
   useEffect(() => {
     const aoPressionarTecla = (
       event: KeyboardEvent
@@ -159,8 +111,7 @@ export default function PageIntro() {
         return;
       }
 
-      const elementoAtivo =
-        document.activeElement;
+      const elementoAtivo = document.activeElement;
 
       const estaEmCampo =
         elementoAtivo instanceof HTMLInputElement ||
@@ -180,16 +131,14 @@ export default function PageIntro() {
 
       if (
         estaNaIntroducao &&
-        !estaNoNomeDoJogador
+        !estaNoNomeDoJogador &&
+        typingDone
       ) {
         avancarDialogo();
         return;
       }
 
-      if (
-        estaNaLocalizacao &&
-        location
-      ) {
+      if (estaNaLocalizacao && location) {
         confirmarLocal();
       }
     };
@@ -215,6 +164,7 @@ export default function PageIntro() {
     estaNoNomeDoEstudio,
     estaNoNomeDoJogador,
     location,
+    typingDone,
   ]);
 
   return (
@@ -246,14 +196,13 @@ export default function PageIntro() {
         }}
       />
 
-      {/* CAMADA DE CONTRASTE */}
+      {/* CONTRASTE */}
 
       <div
         style={{
           position: "absolute",
           inset: 0,
-          backgroundColor:
-            "rgba(0, 0, 0, 0.08)",
+          backgroundColor: "rgba(0, 0, 0, 0.08)",
           pointerEvents: "none",
           zIndex: 2,
         }}
@@ -261,32 +210,46 @@ export default function PageIntro() {
 
       {/* VICTOR */}
 
-<img
-  src="/images/mentor.png"
-  alt="Victor"
-  draggable={false}
-  style={{
-    position: "absolute",
-    left: "2.5vw",
-    bottom: "-42px",
-    height: "100vh",
-    width: "auto",
-    objectFit: "contain",
-    objectPosition: "left bottom",
-    zIndex: 20,
-    userSelect: "none",
-    pointerEvents: "none",
-    filter:
-      "drop-shadow(10px 8px 14px rgba(0, 0, 0, 0.48))",
-  }}
-/>
+      <img
+        src="/images/mentor.png"
+        alt="Victor"
+        draggable={false}
+        style={{
+          position: "absolute",
+
+          /*
+           * Posição do Victor:
+           * mais para a direita e mais para baixo.
+           */
+          left: "4vw",
+          bottom: "-70px",
+
+          /*
+           * Tamanho grande, próximo da referência.
+           */
+          height: "96vh",
+          width: "auto",
+
+          objectFit: "contain",
+          objectPosition: "left bottom",
+
+          zIndex: 20,
+
+          userSelect: "none",
+          pointerEvents: "none",
+
+          filter:
+            "drop-shadow(10px 8px 14px rgba(0, 0, 0, 0.48))",
+        }}
+      />
 
       {/* BALÃO DE DIÁLOGO */}
 
       <section
         onClick={
           estaNaIntroducao &&
-          !estaNoNomeDoJogador
+          !estaNoNomeDoJogador &&
+          typingDone
             ? avancarDialogo
             : undefined
         }
@@ -295,6 +258,7 @@ export default function PageIntro() {
           left: "52.5%",
           top: "19%",
           width: "min(560px, 42vw)",
+          minWidth: "360px",
           minHeight: "210px",
           zIndex: 30,
         }}
@@ -319,12 +283,9 @@ export default function PageIntro() {
             top: "88px",
             width: 0,
             height: 0,
-            borderTop:
-              "25px solid transparent",
-            borderBottom:
-              "25px solid transparent",
-            borderRight:
-              "42px solid white",
+            borderTop: "25px solid transparent",
+            borderBottom: "25px solid transparent",
+            borderRight: "42px solid white",
           }}
         />
 
@@ -337,10 +298,8 @@ export default function PageIntro() {
             top: "93px",
             width: 0,
             height: 0,
-            borderTop:
-              "20px solid transparent",
-            borderBottom:
-              "20px solid transparent",
+            borderTop: "20px solid transparent",
+            borderBottom: "20px solid transparent",
             borderRight:
               "34px solid rgba(0, 0, 0, 0.85)",
           }}
@@ -354,15 +313,12 @@ export default function PageIntro() {
 
         {estaNaIntroducao && (
           <>
-            <p className="min-h-[90px] text-2xl leading-relaxed tracking-wide">
-              {displayText}
-
-              {!typingDone && (
-                <span className="ml-1 inline-block animate-pulse">
-                  ▌
-                </span>
-              )}
-            </p>
+            <TypewriterText
+              key={step}
+              text={dialogos[step]}
+              speed={30}
+              onComplete={() => setTypingDone(true)}
+            />
 
             {typingDone &&
               !estaNoNomeDoJogador && (
@@ -398,9 +354,7 @@ export default function PageIntro() {
                     type="text"
                     value={playerName}
                     onChange={(event) =>
-                      setPlayerName(
-                        event.target.value
-                      )
+                      setPlayerName(event.target.value)
                     }
                     placeholder="Digite seu nome..."
                     autoFocus
@@ -462,9 +416,7 @@ export default function PageIntro() {
               type="text"
               value={studioName}
               onChange={(event) =>
-                setStudioName(
-                  event.target.value
-                )
+                setStudioName(event.target.value)
               }
               placeholder="Nome do estúdio..."
               autoFocus
@@ -517,9 +469,7 @@ export default function PageIntro() {
                 <button
                   key={local}
                   type="button"
-                  onClick={() =>
-                    setLocation(local)
-                  }
+                  onClick={() => setLocation(local)}
                   className={`
                     rounded-lg
                     border
@@ -562,5 +512,56 @@ export default function PageIntro() {
         )}
       </section>
     </main>
+  );
+}
+
+type TypewriterTextProps = {
+  text: string;
+  speed: number;
+  onComplete: () => void;
+};
+
+function TypewriterText({
+  text,
+  speed,
+  onComplete,
+}: TypewriterTextProps) {
+  const textRef = useRef<HTMLParagraphElement>(null);
+
+  useEffect(() => {
+    const paragraph = textRef.current;
+
+    if (!paragraph) {
+      return;
+    }
+
+    paragraph.textContent = "";
+
+    let currentIndex = 0;
+
+    const timer = window.setInterval(() => {
+      currentIndex += 1;
+
+      paragraph.textContent = text.slice(
+        0,
+        currentIndex
+      );
+
+      if (currentIndex >= text.length) {
+        window.clearInterval(timer);
+        onComplete();
+      }
+    }, speed);
+
+    return () => {
+      window.clearInterval(timer);
+    };
+  }, [onComplete, speed, text]);
+
+  return (
+    <p
+      ref={textRef}
+      className="min-h-[90px] text-2xl leading-relaxed tracking-wide"
+    />
   );
 }
