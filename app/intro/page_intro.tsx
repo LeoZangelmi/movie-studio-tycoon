@@ -211,40 +211,35 @@ export default function PageIntro() {
 
       <div className="absolute inset-0 bg-black/10" />
 
-      {/* PERSONAGEM */}
+     {/* PERSONAGEM */}
 
-      <img
-        src="/images/mentor.png"
-        alt="Victor"
-        draggable={false}
-        style={{
-          position: "absolute",
+<img
+  src="/images/mentor.png"
+  alt="Victor"
+  draggable={false}
+  style={{
+    position: "absolute",
+    left: "1%",
+    bottom: "-2px",
 
-          /*
-           * Estes valores deixam o personagem menor,
-           * totalmente visível e próximo da referência.
-           */
-          left: "1.5%",
-          bottom: "-2px",
+    height: "94vh",
+    width: "auto",
 
-          width:
-            "clamp(240px, 20vw, 380px)",
+    maxWidth: "48vw",
+    maxHeight: "940px",
 
-          height: "auto",
-          maxHeight: "78vh",
+    objectFit: "contain",
+    objectPosition: "left bottom",
 
-          objectFit: "contain",
-          objectPosition: "left bottom",
+    zIndex: 20,
 
-          zIndex: 20,
+    userSelect: "none",
+    pointerEvents: "none",
 
-          userSelect: "none",
-          pointerEvents: "none",
-
-          filter:
-            "drop-shadow(8px 8px 12px rgba(0, 0, 0, 0.45))",
-        }}
-      />
+    filter:
+      "drop-shadow(10px 8px 14px rgba(0, 0, 0, 0.48))",
+  }}
+/>
 
       {/* BALÃO DE DIÁLOGO */}
 
