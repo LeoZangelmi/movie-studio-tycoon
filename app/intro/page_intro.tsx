@@ -326,7 +326,6 @@ export default function PageIntro() {
     backdrop-blur-sm
   "
 >
-      >
         {/* PONTA EXTERNA */}
 
         <div
