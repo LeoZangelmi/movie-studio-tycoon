@@ -170,27 +170,38 @@ export default function PageIntro() {
       {/* Camada de contraste */}
       <div className="absolute inset-0 bg-black/10" />
 
-    {/* Personagem */}
+   {/* Personagem */}
 
-<img
-  src="/images/mentor.png"
-  alt="Victor"
-  draggable={false}
+<div
   style={{
     position: "absolute",
     left: "1.5%",
     bottom: 0,
-    height: "82vh",
-    maxHeight: "820px",
-    width: "auto",
-    objectFit: "contain",
-    objectPosition: "bottom left",
+    width: "32vw",
+    height: "76vh",
     zIndex: 20,
-    userSelect: "none",
     pointerEvents: "none",
-    filter: "drop-shadow(10px 8px 12px rgba(0, 0, 0, 0.45))",
   }}
-/>
+>
+  <img
+    src="/images/mentor.png"
+    alt="Victor"
+    draggable={false}
+    style={{
+      position: "absolute",
+      left: 0,
+      bottom: 0,
+      width: "100%",
+      height: "100%",
+      objectFit: "contain",
+      objectPosition: "left bottom",
+      userSelect: "none",
+      pointerEvents: "none",
+      filter:
+        "drop-shadow(8px 8px 12px rgba(0, 0, 0, 0.45))",
+    }}
+  />
+</div>
 
       {/* Balão, posicionado depois da abertura do megafone */}
       <section
