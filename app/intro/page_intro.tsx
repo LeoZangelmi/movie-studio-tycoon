@@ -268,17 +268,15 @@ export default function PageIntro() {
   style={{
     position: "absolute",
 
-    /* Posição do personagem */
-    left: "-1.5vw",
-    bottom: "-8px",
+    /* Mais para a direita */
+    left: "2.5vw",
 
-    /* Tamanho grande, com corpo inteiro */
+    /* Mais para baixo */
+    bottom: "-42px",
+
+    /* Mantém o tamanho grande */
     height: "100vh",
     width: "auto",
-
-    /* Amplia o conteúdo sem deslocar os pés */
-    transform: "scale(1.08)",
-    transformOrigin: "left bottom",
 
     objectFit: "contain",
     objectPosition: "left bottom",
