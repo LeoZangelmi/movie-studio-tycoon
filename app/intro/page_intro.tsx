@@ -271,14 +271,14 @@ export default function PageIntro() {
           /*
            * Ajustes principais do personagem.
            */
-          left: "0%",
+          left: "-1%",
           bottom: "-4px",
 
           /*
            * A altura controla o tamanho principal.
            * A largura automática preserva a proporção.
            */
-          height: "92vh",
+          height: "96vh",
           width: "auto",
 
           /*
