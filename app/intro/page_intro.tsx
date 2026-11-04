@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const dialogos = [
@@ -72,7 +72,7 @@ export default function PageIntro() {
     };
   }, [step, estaNaIntroducao]);
 
-  const avancarDialogo = () => {
+  const avancarDialogo = useCallback(() => {
     if (!estaNaIntroducao) {
       return;
     }
@@ -86,9 +86,9 @@ export default function PageIntro() {
     if (step < dialogos.length - 1) {
       setStep((stepAtual) => stepAtual + 1);
     }
-  };
+  }, [estaNaIntroducao, step, typingDone]);
 
-  const confirmarNome = () => {
+  const confirmarNome = useCallback(() => {
     const nomeLimpo = playerName.trim();
 
     if (!nomeLimpo) {
@@ -102,9 +102,9 @@ export default function PageIntro() {
 
     setPlayerName(nomeLimpo);
     setStep(100);
-  };
+  }, [playerName]);
 
-  const confirmarEstudio = () => {
+  const confirmarEstudio = useCallback(() => {
     const nomeLimpo = studioName.trim();
 
     if (!nomeLimpo) {
@@ -118,9 +118,9 @@ export default function PageIntro() {
 
     setStudioName(nomeLimpo);
     setStep(200);
-  };
+  }, [studioName]);
 
-  const confirmarLocal = () => {
+  const confirmarLocal = useCallback(() => {
     if (!location) {
       return;
     }
@@ -131,7 +131,7 @@ export default function PageIntro() {
     );
 
     router.push("/worldmap");
-  };
+  }, [location, router]);
 
   useEffect(() => {
     const aoPressionarTecla = (
@@ -163,6 +163,7 @@ export default function PageIntro() {
         !estaNoNomeDoJogador
       ) {
         avancarDialogo();
+        return;
       }
 
       if (
@@ -185,65 +186,92 @@ export default function PageIntro() {
       );
     };
   }, [
-    step,
-    typingDone,
-    playerName,
-    studioName,
-    location,
+    avancarDialogo,
+    confirmarEstudio,
+    confirmarLocal,
+    confirmarNome,
     estaNaIntroducao,
-    estaNoNomeDoJogador,
-    estaNoNomeDoEstudio,
     estaNaLocalizacao,
+    estaNoNomeDoEstudio,
+    estaNoNomeDoJogador,
+    location,
   ]);
 
   return (
-    <main className="relative h-screen w-screen overflow-hidden bg-black">
+    <main
+      style={{
+        position: "relative",
+        width: "100vw",
+        height: "100vh",
+        overflow: "hidden",
+        backgroundColor: "#000000",
+      }}
+    >
       {/* CENÁRIO */}
 
       <img
         src="/images/intro_background.jpg"
         alt="Cenário do estúdio"
         draggable={false}
-        className="absolute inset-0 h-full w-full object-cover"
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          objectPosition: "center",
+          userSelect: "none",
+          pointerEvents: "none",
+          zIndex: 1,
+        }}
       />
 
       {/* CONTRASTE */}
 
-      <div className="absolute inset-0 bg-black/10" />
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundColor:
+            "rgba(0, 0, 0, 0.08)",
+          pointerEvents: "none",
+          zIndex: 2,
+        }}
+      />
 
-     {/* PERSONAGEM */}
+      {/* PERSONAGEM */}
 
-<div
-  style={{
-    position: "absolute",
-    left: "1.5%",
-    bottom: 0,
-    width: "34vw",
-    height: "84vh",
-    zIndex: 20,
-    overflow: "visible",
-    pointerEvents: "none",
-  }}
->
-  <img
-    src="/images/mentor.png"
-    alt="Victor"
-    draggable={false}
-    style={{
-      position: "absolute",
-      left: 0,
-      bottom: 0,
-      width: "100%",
-      height: "100%",
-      objectFit: "contain",
-      objectPosition: "left bottom",
-      userSelect: "none",
-      pointerEvents: "none",
-      filter:
-        "drop-shadow(10px 8px 14px rgba(0, 0, 0, 0.48))",
-    }}
-  />
-</div>
+      <div
+        style={{
+          position: "absolute",
+          left: "-1.5vw",
+          bottom: "-1.5vh",
+          width: "48vw",
+          height: "103vh",
+          overflow: "visible",
+          pointerEvents: "none",
+          zIndex: 20,
+        }}
+      >
+        <img
+          src="/images/mentor.png"
+          alt="Victor"
+          draggable={false}
+          style={{
+            position: "absolute",
+            left: 0,
+            bottom: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "contain",
+            objectPosition: "left bottom",
+            userSelect: "none",
+            pointerEvents: "none",
+            filter:
+              "drop-shadow(10px 8px 14px rgba(0, 0, 0, 0.48))",
+          }}
+        />
+      </div>
 
       {/* BALÃO DE DIÁLOGO */}
 
@@ -256,19 +284,10 @@ export default function PageIntro() {
         }
         style={{
           position: "absolute",
-
-          /*
-           * O balão permanece na posição anterior,
-           * que já estava correta.
-           */
           left: "52.5%",
           top: "19%",
-
-          width:
-            "min(560px, 42vw)",
-
+          width: "min(560px, 42vw)",
           minHeight: "210px",
-
           zIndex: 30,
         }}
         className="
@@ -290,16 +309,12 @@ export default function PageIntro() {
             position: "absolute",
             left: "-42px",
             top: "88px",
-
             width: 0,
             height: 0,
-
             borderTop:
               "25px solid transparent",
-
             borderBottom:
               "25px solid transparent",
-
             borderRight:
               "42px solid white",
           }}
@@ -312,16 +327,12 @@ export default function PageIntro() {
             position: "absolute",
             left: "-33px",
             top: "93px",
-
             width: 0,
             height: 0,
-
             borderTop:
               "20px solid transparent",
-
             borderBottom:
               "20px solid transparent",
-
             borderRight:
               "34px solid rgba(0, 0, 0, 0.85)",
           }}
@@ -402,9 +413,7 @@ export default function PageIntro() {
                   <button
                     type="button"
                     onClick={confirmarNome}
-                    disabled={
-                      !playerName.trim()
-                    }
+                    disabled={!playerName.trim()}
                     className="
                       mt-4
                       rounded-lg
@@ -487,7 +496,7 @@ export default function PageIntro() {
           </>
         )}
 
-        {/* ESCOLHA DA LOCALIZAÇÃO */}
+        {/* LOCALIZAÇÃO */}
 
         {estaNaLocalizacao && (
           <>
@@ -496,32 +505,30 @@ export default function PageIntro() {
             </p>
 
             <div className="grid max-h-[300px] gap-2 overflow-y-auto pr-1">
-              {localizacoes.map(
-                (local) => (
-                  <button
-                    key={local}
-                    type="button"
-                    onClick={() =>
-                      setLocation(local)
+              {localizacoes.map((local) => (
+                <button
+                  key={local}
+                  type="button"
+                  onClick={() =>
+                    setLocation(local)
+                  }
+                  className={`
+                    rounded-lg
+                    border
+                    px-4
+                    py-3
+                    text-left
+                    transition
+                    ${
+                      location === local
+                        ? "border-green-400 bg-green-600"
+                        : "border-zinc-600 bg-zinc-900 hover:bg-zinc-800"
                     }
-                    className={`
-                      rounded-lg
-                      border
-                      px-4
-                      py-3
-                      text-left
-                      transition
-                      ${
-                        location === local
-                          ? "border-green-400 bg-green-600"
-                          : "border-zinc-600 bg-zinc-900 hover:bg-zinc-800"
-                      }
-                    `}
-                  >
-                    {local}
-                  </button>
-                )
-              )}
+                  `}
+                >
+                  {local}
+                </button>
+              ))}
             </div>
 
             <button
