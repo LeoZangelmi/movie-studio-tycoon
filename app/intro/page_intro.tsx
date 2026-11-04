@@ -205,49 +205,53 @@ export default function PageIntro() {
         }}
       />
 
-      {/* VICTOR, ENQUADRADO DO TRONCO PARA CIMA */}
+      {/* VICTOR, TRONCO PARA CIMA */}
 
-      <div
-        style={{
-          position: "absolute",
-          left: "1.5vw",
-          bottom: 0,
-          width: "49vw",
-          height: "100vh",
-          overflow: "hidden",
-          pointerEvents: "none",
-          zIndex: 20,
-        }}
-      >
-        <img
-          src="/images/mentor.png"
-          alt="Victor"
-          draggable={false}
-          style={{
-            position: "absolute",
+<div
+  style={{
+    position: "absolute",
 
-            /*
-             * Menos negativo significa mais para cima.
-             * Antes estava em -78vh.
-             */
-            left: "0",
-            bottom: "-68vh",
+    /* Move o conjunto para a esquerda */
+    left: "-3vw",
 
-            height: "178vh",
-            width: "auto",
-            maxWidth: "none",
+    bottom: 0,
 
-            objectFit: "contain",
-            objectPosition: "left bottom",
+    /* Área reservada para o Victor e o megafone */
+    width: "54vw",
+    height: "100vh",
 
-            userSelect: "none",
-            pointerEvents: "none",
+    overflow: "hidden",
+    pointerEvents: "none",
+    zIndex: 20,
+  }}
+>
+  <img
+    src="/images/mentor.png"
+    alt="Victor"
+    draggable={false}
+    style={{
+      position: "absolute",
 
-            filter:
-              "drop-shadow(12px 9px 16px rgba(0, 0, 0, 0.5))",
-          }}
-        />
-      </div>
+      /* Ajuste interno da imagem */
+      left: 0,
+      bottom: "-64vh",
+
+      /* Mantém o enquadramento grande do tronco */
+      height: "170vh",
+      width: "auto",
+      maxWidth: "none",
+
+      objectFit: "contain",
+      objectPosition: "left bottom",
+
+      userSelect: "none",
+      pointerEvents: "none",
+
+      filter:
+        "drop-shadow(12px 9px 16px rgba(0, 0, 0, 0.5))",
+    }}
+  />
+</div>
 
       {/* BALÃO DE DIÁLOGO */}
 
