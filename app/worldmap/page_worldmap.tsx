@@ -292,15 +292,14 @@ export default function PageWorldMap() {
             title="Ano"
             value={gameData.year}
           />
-
-         {/* MAPA */}
+{/* MAPA */}
 
 <HudButton
   imageSrc="/images/hud/button_map.png"
-  left="58.2%"
-  top="45%"
-  width="6.4%"
-  height="42%"
+  left="76.8%"
+  top="60%"
+  width="5.8%"
+  height="32%"
   active
   onClick={() => router.push("/worldmap")}
 />
@@ -309,10 +308,10 @@ export default function PageWorldMap() {
 
 <HudButton
   imageSrc="/images/hud/button_studio.png"
-  left="64.4%"
-  top="45%"
-  width="6.4%"
-  height="42%"
+  left="82.1%"
+  top="60%"
+  width="5.8%"
+  height="32%"
   onClick={() => router.push("/studio")}
 />
 
@@ -320,10 +319,10 @@ export default function PageWorldMap() {
 
 <HudButton
   imageSrc="/images/hud/button_events.png"
-  left="70.6%"
-  top="45%"
-  width="6.4%"
-  height="42%"
+  left="87.4%"
+  top="60%"
+  width="5.8%"
+  height="32%"
   onClick={() => router.push("/events")}
 />
 
@@ -331,10 +330,10 @@ export default function PageWorldMap() {
 
 <HudButton
   imageSrc="/images/hud/button_missions.png"
-  left="76.8%"
-  top="45%"
-  width="6.4%"
-  height="42%"
+  left="92.7%"
+  top="60%"
+  width="5.8%"
+  height="32%"
   onClick={() => router.push("/missions")}
 />
 
@@ -342,10 +341,10 @@ export default function PageWorldMap() {
 
 <HudButton
   imageSrc="/images/hud/button_settings.png"
-  left="83%"
-  top="45%"
-  width="6.4%"
-  height="42%"
+  left="97.9%"
+  top="60%"
+  width="5.8%"
+  height="32%"
   onClick={() => router.push("/settings")}
 />
 
