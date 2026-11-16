@@ -30,6 +30,7 @@ export default function PageWorldMap() {
   const router = useRouter();
 
   const [loaded, setLoaded] = useState(false);
+
   const [gameData, setGameData] =
     useState<GameData>(DEFAULT_GAME_DATA);
 
@@ -51,7 +52,7 @@ export default function PageWorldMap() {
         : fallback;
     };
 
-    const loadedGameData: GameData = {
+    setGameData({
       level: readNumber("level", 1),
       fame: readNumber("fame", 0),
       money: readNumber("money", 100000),
@@ -66,9 +67,8 @@ export default function PageWorldMap() {
       studioLocation:
         localStorage.getItem("studioLocation") ||
         DEFAULT_GAME_DATA.studioLocation,
-    };
+    });
 
-    setGameData(loadedGameData);
     setLoaded(true);
   }, []);
 
@@ -98,258 +98,250 @@ export default function PageWorldMap() {
         backgroundColor: "#020617",
       }}
     >
-      {/* MAPA-MÚNDI */}
+      {/*
+        CANVAS PRINCIPAL
 
-      <img
-        src="/images/world_map.jpg"
-        alt="Mapa-múndi"
-        draggable={false}
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          objectPosition: "center",
-          userSelect: "none",
-          pointerEvents: "none",
-          zIndex: 1,
-        }}
-      />
+        A imagem hud_base.png possui 1536 × 1024,
+        portanto sua proporção original é 3:2.
 
-      {/* SOMBRA ENTRE O MAPA E A HUD */}
+        O canvas é ampliado até preencher a largura
+        e fica ancorado no rodapé. Em telas 16:9,
+        uma pequena parte superior é cortada, mas
+        mapa e HUD não são achatados.
+      */}
 
       <div
         style={{
           position: "absolute",
-          right: 0,
+          left: "50%",
           bottom: 0,
-          left: 0,
-          height: "clamp(190px, 26vw, 350px)",
-          background:
-            "linear-gradient(to top, rgba(0, 0, 0, 0.52) 0%, rgba(0, 0, 0, 0.18) 45%, transparent 100%)",
-          pointerEvents: "none",
-          zIndex: 5,
-        }}
-      />
 
-      {/* CONTAINER PRINCIPAL DA HUD */}
-
-      <section
-        style={{
-          position: "fixed",
-          right: 0,
-          bottom: 0,
-          left: 0,
           width: "100vw",
-          height: "clamp(190px, 23vw, 280px)",
+          aspectRatio: "3 / 2",
+
+          transform: "translateX(-50%)",
+
           overflow: "visible",
-          pointerEvents: "none",
-          zIndex: 50,
+
+          zIndex: 1,
         }}
       >
-        <div
+        {/* MAPA E HUD BASE */}
+
+        <img
+          src="/images/hud/hud_base.png"
+          alt="Mapa-múndi e interface principal"
+          draggable={false}
           style={{
             position: "absolute",
-            right: 0,
-            bottom: "-48px",
-            left: 0,
+            inset: 0,
+
+            display: "block",
+
             width: "100%",
-            height: "calc(100% + 30px)",
-            overflow: "visible",
+            height: "100%",
+
+            objectFit: "contain",
+            objectPosition: "center bottom",
+
+            userSelect: "none",
+            pointerEvents: "none",
+
+            zIndex: 1,
+          }}
+        />
+
+        {/* NÍVEL */}
+
+        <HudValue
+          left="12.8%"
+          top="84.7%"
+          width="5%"
+          title="Nível"
+          value={gameData.level}
+        />
+
+        {/* FAMA */}
+
+        <HudValue
+          left="19.7%"
+          top="84.7%"
+          width="5%"
+          title="Fama"
+          value={gameData.fame}
+        />
+
+        {/* DINHEIRO */}
+
+        <HudValue
+          left="26.8%"
+          top="85.2%"
+          width="9%"
+          title="Dinheiro"
+          value={formatMoney(gameData.money)}
+          compact
+        />
+
+        {/* TECNOLOGIA */}
+
+        <HudValue
+          left="35.6%"
+          top="84.7%"
+          width="5%"
+          title="Tecnologia"
+          value={gameData.technology}
+        />
+
+        {/* PRESTÍGIO */}
+
+        <HudValue
+          left="43.9%"
+          top="84.7%"
+          width="5%"
+          title="Prestígio"
+          value={gameData.prestige}
+        />
+
+        {/* LOCALIZAÇÃO E ESTÚDIO */}
+
+        <div
+          title={`${gameData.studioLocation} - ${gameData.studioName}`}
+          style={{
+            position: "absolute",
+
+            left: "55.6%",
+            top: "84.6%",
+            width: "14.5%",
+
+            transform: "translate(-50%, -50%)",
+
+            overflow: "hidden",
+
+            color: "#ffe1a0",
+
+            fontFamily:
+              "Georgia, 'Times New Roman', serif",
+
+            textAlign: "center",
+
+            textShadow:
+              "0 2px 1px #000, 0 0 4px #000, 0 0 8px rgba(0, 0, 0, 0.95)",
+
+            pointerEvents: "none",
+
+            zIndex: 10,
           }}
         >
-          {/* NOVA HUD BASE, SEM BOTÕES EMBUTIDOS */}
-
-          <img
-            src="/images/hud/hud_base.png"
-            alt="Interface principal"
-            draggable={false}
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "fill",
-              objectPosition: "center bottom",
-              filter:
-                "drop-shadow(0 -8px 14px rgba(0, 0, 0, 0.58))",
-              userSelect: "none",
-              pointerEvents: "none",
-              zIndex: 1,
-            }}
-          />
-
-          {/* NÍVEL */}
-
-          <HudValue
-            left="12.85%"
-            top="68%"
-            width="5.4%"
-            title="Nível"
-            value={gameData.level}
-          />
-
-          {/* FAMA */}
-
-          <HudValue
-            left="19.35%"
-            top="68%"
-            width="4.4%"
-            title="Fama"
-            value={gameData.fame}
-          />
-
-          {/* DINHEIRO */}
-
-          <HudValue
-            left="26.6%"
-            top="72%"
-            width="10.2%"
-            title="Dinheiro"
-            value={formatMoney(gameData.money)}
-            compact
-          />
-
-          {/* TECNOLOGIA */}
-
-          <HudValue
-            left="35.35%"
-            top="68%"
-            width="5.3%"
-            title="Tecnologia"
-            value={gameData.technology}
-          />
-
-          {/* PRESTÍGIO */}
-
-          <HudValue
-            left="43.55%"
-            top="68%"
-            width="5.3%"
-            title="Prestígio"
-            value={gameData.prestige}
-          />
-
-          {/* LOCALIZAÇÃO E NOME DO ESTÚDIO */}
-
           <div
-            title={`${gameData.studioLocation} - ${gameData.studioName}`}
             style={{
-              position: "absolute",
-              left: "55.7%",
-              top: "70%",
-              width: "14.5%",
-              transform: "translate(-50%, -50%)",
               overflow: "hidden",
-              color: "#ffe1a0",
-              fontFamily:
-                "Georgia, 'Times New Roman', serif",
-              textAlign: "center",
-              textShadow:
-                "0 2px 1px #000, 0 0 4px #000, 0 0 8px rgba(0, 0, 0, 0.95)",
-              pointerEvents: "none",
-              zIndex: 10,
+
+              fontSize:
+                "clamp(9px, 0.92vw, 17px)",
+
+              fontWeight: 900,
+              lineHeight: 1,
+
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
             }}
           >
-            <div
-              style={{
-                overflow: "hidden",
-                fontSize:
-                  "clamp(9px, 0.92vw, 17px)",
-                fontWeight: 900,
-                lineHeight: 1,
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {gameData.studioLocation}
-            </div>
-
-            <div
-              style={{
-                marginTop: "5px",
-                overflow: "hidden",
-                color: "#d8af6d",
-                fontSize:
-                  "clamp(7px, 0.62vw, 11px)",
-                fontWeight: 700,
-                lineHeight: 1,
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {gameData.studioName}
-            </div>
+            {gameData.studioLocation}
           </div>
 
-          {/* ANO */}
+          <div
+            style={{
+              marginTop: "4px",
 
-          <HudValue
-            left="67.5%"
-            top="68%"
-            width="5.8%"
-            title="Ano"
-            value={gameData.year}
-          />
+              overflow: "hidden",
 
-          {/* BOTÃO MAPA */}
+              color: "#d8af6d",
 
-          <HudButton
-            imageSrc="/images/hud/button_map.png"
-            left="72.4%"
-            top="48%"
-            width="5.25%"
-            height="43%"
-            active
-            onClick={() => router.push("/worldmap")}
-          />
+              fontSize:
+                "clamp(7px, 0.62vw, 11px)",
 
-          {/* BOTÃO ESTÚDIOS */}
+              fontWeight: 700,
+              lineHeight: 1,
 
-          <HudButton
-            imageSrc="/images/hud/button_studio.png"
-            left="77.85%"
-            top="48%"
-            width="5.25%"
-            height="43%"
-            onClick={() => router.push("/studio")}
-          />
-
-          {/* BOTÃO EVENTOS */}
-
-          <HudButton
-            imageSrc="/images/hud/button_events.png"
-            left="83.3%"
-            top="48%"
-            width="5.25%"
-            height="43%"
-            onClick={() => router.push("/events")}
-          />
-
-          {/* BOTÃO MISSÕES */}
-
-          <HudButton
-            imageSrc="/images/hud/button_missions.png"
-            left="88.75%"
-            top="48%"
-            width="5.25%"
-            height="43%"
-            onClick={() => router.push("/missions")}
-          />
-
-          {/* BOTÃO OPÇÕES */}
-
-          <HudButton
-            imageSrc="/images/hud/button_settings.png"
-            left="94.2%"
-            top="48%"
-            width="5.25%"
-            height="43%"
-            onClick={() => router.push("/settings")}
-          />
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {gameData.studioName}
+          </div>
         </div>
-      </section>
+
+        {/* ANO */}
+
+        <HudValue
+          left="67.4%"
+          top="84.7%"
+          width="5.8%"
+          title="Ano"
+          value={gameData.year}
+        />
+
+        {/* BOTÃO MAPA */}
+
+        <HudButton
+          label="Mapa"
+          imageSrc="/images/hud/button_map.png"
+          left="71.9%"
+          top="79.3%"
+          width="5.45%"
+          height="12.8%"
+          active
+          onClick={() => router.push("/worldmap")}
+        />
+
+        {/* BOTÃO ESTÚDIOS */}
+
+        <HudButton
+          label="Estúdios"
+          imageSrc="/images/hud/button_studio.png"
+          left="77.45%"
+          top="79.3%"
+          width="5.45%"
+          height="12.8%"
+          onClick={() => router.push("/studio")}
+        />
+
+        {/* BOTÃO EVENTOS */}
+
+        <HudButton
+          label="Eventos"
+          imageSrc="/images/hud/button_events.png"
+          left="83%"
+          top="79.3%"
+          width="5.45%"
+          height="12.8%"
+          onClick={() => router.push("/events")}
+        />
+
+        {/* BOTÃO MISSÕES */}
+
+        <HudButton
+          label="Missões"
+          imageSrc="/images/hud/button_missions.png"
+          left="88.55%"
+          top="79.3%"
+          width="5.45%"
+          height="12.8%"
+          onClick={() => router.push("/missions")}
+        />
+
+        {/* BOTÃO OPÇÕES */}
+
+        <HudButton
+          label="Opções"
+          imageSrc="/images/hud/button_settings.png"
+          left="94.1%"
+          top="79.3%"
+          width="5.45%"
+          height="12.8%"
+          onClick={() => router.push("/settings")}
+        />
+      </div>
     </main>
   );
 }
@@ -376,25 +368,37 @@ function HudValue({
       title={`${title}: ${value}`}
       style={{
         position: "absolute",
+
         left,
         top,
         width,
+
         transform: "translate(-50%, -50%)",
+
         overflow: "hidden",
+
         color: "#ffe1a0",
+
         fontFamily:
           "Georgia, 'Times New Roman', serif",
+
         fontSize: compact
           ? "clamp(8px, 0.84vw, 16px)"
           : "clamp(10px, 1vw, 20px)",
+
         fontWeight: 900,
         lineHeight: 1,
+
         textAlign: "center",
         textOverflow: "ellipsis",
+
         textShadow:
           "0 2px 1px #000, 0 0 4px #000, 0 0 8px rgba(0, 0, 0, 0.95)",
+
         whiteSpace: "nowrap",
+
         pointerEvents: "none",
+
         zIndex: 10,
       }}
     >
