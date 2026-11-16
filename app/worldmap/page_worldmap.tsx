@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import HudButton from "../components/HudButton";
 
 type GameData = {
   level: number;
@@ -348,89 +349,8 @@ export default function PageWorldMap() {
   onClick={() => router.push("/settings")}
 />
 
-type HudButtonProps = {
-  imageSrc: string;
-  left: string;
-  top: string;
-  width: string;
-  height: string;
-  active?: boolean;
-  onClick: () => void;
-};
-
-function HudButton({
-  imageSrc,
-  left,
-  top,
-  width,
-  height,
-  active = false,
-  onClick,
-}: HudButtonProps) {
-  const [pressed, setPressed] =
-    useState(false);
-
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      onMouseDown={() =>
-        setPressed(true)
-      }
-      onMouseUp={() =>
-        setPressed(false)
-      }
-      onMouseLeave={() =>
-        setPressed(false)
-      }
-      style={{
-        position: "absolute",
-        left,
-        top,
-        width,
-        height,
-
-        padding: 0,
-
-        border: "none",
-
-        background: "transparent",
-
-        cursor: "pointer",
-
-        pointerEvents: "auto",
-
-        zIndex: 80,
-      }}
-    >
-      <img
-        src={imageSrc}
-        alt=""
-        draggable={false}
-        style={{
-          width: "100%",
-          height: "100%",
-
-          objectFit: "contain",
-
-          transform: pressed
-            ? "translateY(8px)"
-            : "translateY(0px)",
-
-          filter: pressed
-            ? "brightness(0.75)"
-            : active
-            ? "brightness(1.08)"
-            : "brightness(1)",
-
-          transition:
-            "transform .08s ease, filter .08s ease",
-
-          pointerEvents: "none",
-
-          userSelect: "none",
-        }}
-      />
-    </button>
+        </div>
+      </section>
+    </main>
   );
 }
