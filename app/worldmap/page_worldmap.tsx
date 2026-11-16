@@ -166,7 +166,7 @@ export default function PageWorldMap() {
           {/* ARTE DA HUD */}
 
           <img
-            src="/images/hud_world_ready.png"
+            src="/images/hud/hud_base.png"
             alt="Interface principal"
             draggable={false}
             style={{
@@ -292,123 +292,61 @@ export default function PageWorldMap() {
             value={gameData.year}
           />
 
-          {/* MAPA */}
+         {/* MAPA */}
 
 <HudButton
   imageSrc="/images/hud/button_map.png"
-  left="74.2%"
-  top="61%"
-  width="4%"
-  height="22%"
+  left="58.2%"
+  top="45%"
+  width="6.4%"
+  height="42%"
   active
-  onClick={() =>
-    router.push("/worldmap")
-  }
+  onClick={() => router.push("/worldmap")}
 />
 
 {/* ESTÚDIOS */}
 
 <HudButton
   imageSrc="/images/hud/button_studio.png"
-  left="79.6%"
-  top="61%"
-  width="4%"
-  height="22%"
-  onClick={() =>
-    router.push("/studio")
-  }
+  left="64.4%"
+  top="45%"
+  width="6.4%"
+  height="42%"
+  onClick={() => router.push("/studio")}
 />
 
 {/* EVENTOS */}
 
 <HudButton
   imageSrc="/images/hud/button_events.png"
-  left="85%"
-  top="61%"
-  width="4%"
-  height="22%"
-  onClick={() =>
-    router.push("/events")
-  }
+  left="70.6%"
+  top="45%"
+  width="6.4%"
+  height="42%"
+  onClick={() => router.push("/events")}
 />
 
 {/* MISSÕES */}
 
 <HudButton
   imageSrc="/images/hud/button_missions.png"
-  left="90.3%"
-  top="61%"
-  width="4%"
-  height="22%"
-  onClick={() =>
-    router.push("/missions")
-  }
+  left="76.8%"
+  top="45%"
+  width="6.4%"
+  height="42%"
+  onClick={() => router.push("/missions")}
 />
 
 {/* OPÇÕES */}
 
 <HudButton
   imageSrc="/images/hud/button_settings.png"
-  left="95.5%"
-  top="61%"
-  width="3.7%"
-  height="22%"
-  onClick={() =>
-    router.push("/settings")
-  }
+  left="83%"
+  top="45%"
+  width="6.4%"
+  height="42%"
+  onClick={() => router.push("/settings")}
 />
-        </div>
-      </section>
-    </main>
-  );
-}
-
-type HudValueProps = {
-  left: string;
-  top: string;
-  width: string;
-  title: string;
-  value: string | number;
-  compact?: boolean;
-};
-
-function HudValue({
-  left,
-  top,
-  width,
-  title,
-  value,
-  compact = false,
-}: HudValueProps) {
-  return (
-    <div
-      title={`${title}: ${value}`}
-      style={{
-        position: "absolute",
-        left,
-        top,
-        width,
-        transform: "translate(-50%, -50%)",
-        overflow: "hidden",
-        color: "#ffe1a0",
-        fontFamily: "Georgia, 'Times New Roman', serif",
-        fontSize: compact
-          ? "clamp(8px, 0.84vw, 16px)"
-          : "clamp(10px, 1.02vw, 20px)",
-        fontWeight: 900,
-        lineHeight: 1,
-        textAlign: "center",
-        textOverflow: "ellipsis",
-        textShadow:
-          "0 2px 1px #000, 0 0 4px #000, 0 0 8px rgba(0, 0, 0, 0.95)",
-        whiteSpace: "nowrap",
-        pointerEvents: "none",
-      }}
-    >
-      {value}
-    </div>
-  );
-}
 
 type HudButtonProps = {
   imageSrc: string;
