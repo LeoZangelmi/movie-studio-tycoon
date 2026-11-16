@@ -51,7 +51,7 @@ export default function PageWorldMap() {
         : fallback;
     };
 
-    setGameData({
+    const loadedGameData: GameData = {
       level: readNumber("level", 1),
       fame: readNumber("fame", 0),
       money: readNumber("money", 100000),
@@ -61,13 +61,14 @@ export default function PageWorldMap() {
 
       studioName:
         localStorage.getItem("studioName") ||
-        "Meu Estúdio",
+        DEFAULT_GAME_DATA.studioName,
 
       studioLocation:
         localStorage.getItem("studioLocation") ||
-        "Sem localização",
-    });
+        DEFAULT_GAME_DATA.studioLocation,
+    };
 
+    setGameData(loadedGameData);
     setLoaded(true);
   }, []);
 
@@ -116,7 +117,7 @@ export default function PageWorldMap() {
         }}
       />
 
-      {/* SOMBRA DE INTEGRAÇÃO ENTRE MAPA E HUD */}
+      {/* SOMBRA ENTRE O MAPA E A HUD */}
 
       <div
         style={{
@@ -132,7 +133,7 @@ export default function PageWorldMap() {
         }}
       />
 
-      {/* HUD SOBREPOSTA AO MAPA */}
+      {/* CONTAINER PRINCIPAL DA HUD */}
 
       <section
         style={{
@@ -147,12 +148,6 @@ export default function PageWorldMap() {
           zIndex: 50,
         }}
       >
-        {/*
-          Todo o conteúdo está dentro deste canvas.
-          Alterar HUD_OFFSET_BOTTOM move arte, números
-          e botões ao mesmo tempo.
-        */}
-
         <div
           style={{
             position: "absolute",
@@ -164,7 +159,7 @@ export default function PageWorldMap() {
             overflow: "visible",
           }}
         >
-          {/* ARTE DA HUD */}
+          {/* NOVA HUD BASE, SEM BOTÕES EMBUTIDOS */}
 
           <img
             src="/images/hud/hud_base.png"
@@ -181,14 +176,15 @@ export default function PageWorldMap() {
                 "drop-shadow(0 -8px 14px rgba(0, 0, 0, 0.58))",
               userSelect: "none",
               pointerEvents: "none",
+              zIndex: 1,
             }}
           />
 
           {/* NÍVEL */}
 
           <HudValue
-            left="13.45%"
-            top="66.5%"
+            left="12.85%"
+            top="68%"
             width="5.4%"
             title="Nível"
             value={gameData.level}
@@ -197,8 +193,8 @@ export default function PageWorldMap() {
           {/* FAMA */}
 
           <HudValue
-            left="20.65%"
-            top="66.5%"
+            left="19.35%"
+            top="68%"
             width="4.4%"
             title="Fama"
             value={gameData.fame}
@@ -207,8 +203,8 @@ export default function PageWorldMap() {
           {/* DINHEIRO */}
 
           <HudValue
-            left="27.2%"
-            top="72.5%"
+            left="26.6%"
+            top="72%"
             width="10.2%"
             title="Dinheiro"
             value={formatMoney(gameData.money)}
@@ -218,8 +214,8 @@ export default function PageWorldMap() {
           {/* TECNOLOGIA */}
 
           <HudValue
-            left="36.25%"
-            top="67.5%"
+            left="35.35%"
+            top="68%"
             width="5.3%"
             title="Tecnologia"
             value={gameData.technology}
@@ -228,36 +224,39 @@ export default function PageWorldMap() {
           {/* PRESTÍGIO */}
 
           <HudValue
-            left="44.35%"
-            top="67.5%"
+            left="43.55%"
+            top="68%"
             width="5.3%"
             title="Prestígio"
             value={gameData.prestige}
           />
 
-          {/* LOCALIZAÇÃO E ESTÚDIO */}
+          {/* LOCALIZAÇÃO E NOME DO ESTÚDIO */}
 
           <div
             title={`${gameData.studioLocation} - ${gameData.studioName}`}
             style={{
               position: "absolute",
-              left: "56.4%",
-              top: "69.8%",
+              left: "55.7%",
+              top: "70%",
               width: "14.5%",
               transform: "translate(-50%, -50%)",
               overflow: "hidden",
               color: "#ffe1a0",
-              fontFamily: "Georgia, 'Times New Roman', serif",
+              fontFamily:
+                "Georgia, 'Times New Roman', serif",
               textAlign: "center",
               textShadow:
                 "0 2px 1px #000, 0 0 4px #000, 0 0 8px rgba(0, 0, 0, 0.95)",
               pointerEvents: "none",
+              zIndex: 10,
             }}
           >
             <div
               style={{
                 overflow: "hidden",
-                fontSize: "clamp(9px, 0.92vw, 17px)",
+                fontSize:
+                  "clamp(9px, 0.92vw, 17px)",
                 fontWeight: 900,
                 lineHeight: 1,
                 textOverflow: "ellipsis",
@@ -272,7 +271,8 @@ export default function PageWorldMap() {
                 marginTop: "5px",
                 overflow: "hidden",
                 color: "#d8af6d",
-                fontSize: "clamp(7px, 0.62vw, 11px)",
+                fontSize:
+                  "clamp(7px, 0.62vw, 11px)",
                 fontWeight: 700,
                 lineHeight: 1,
                 textOverflow: "ellipsis",
@@ -286,70 +286,119 @@ export default function PageWorldMap() {
           {/* ANO */}
 
           <HudValue
-            left="68.3%"
-            top="66.5%"
+            left="67.5%"
+            top="68%"
             width="5.8%"
             title="Ano"
             value={gameData.year}
           />
-{/* MAPA */}
 
-<HudButton
-  imageSrc="/images/hud/button_map.png"
-  left="76.8%"
-  top="60%"
-  width="5.8%"
-  height="32%"
-  active
-  onClick={() => router.push("/worldmap")}
-/>
+          {/* BOTÃO MAPA */}
 
-{/* ESTÚDIOS */}
+          <HudButton
+            imageSrc="/images/hud/button_map.png"
+            left="72.4%"
+            top="48%"
+            width="5.25%"
+            height="43%"
+            active
+            onClick={() => router.push("/worldmap")}
+          />
 
-<HudButton
-  imageSrc="/images/hud/button_studio.png"
-  left="82.1%"
-  top="60%"
-  width="5.8%"
-  height="32%"
-  onClick={() => router.push("/studio")}
-/>
+          {/* BOTÃO ESTÚDIOS */}
 
-{/* EVENTOS */}
+          <HudButton
+            imageSrc="/images/hud/button_studio.png"
+            left="77.85%"
+            top="48%"
+            width="5.25%"
+            height="43%"
+            onClick={() => router.push("/studio")}
+          />
 
-<HudButton
-  imageSrc="/images/hud/button_events.png"
-  left="87.4%"
-  top="60%"
-  width="5.8%"
-  height="32%"
-  onClick={() => router.push("/events")}
-/>
+          {/* BOTÃO EVENTOS */}
 
-{/* MISSÕES */}
+          <HudButton
+            imageSrc="/images/hud/button_events.png"
+            left="83.3%"
+            top="48%"
+            width="5.25%"
+            height="43%"
+            onClick={() => router.push("/events")}
+          />
 
-<HudButton
-  imageSrc="/images/hud/button_missions.png"
-  left="92.7%"
-  top="60%"
-  width="5.8%"
-  height="32%"
-  onClick={() => router.push("/missions")}
-/>
+          {/* BOTÃO MISSÕES */}
 
-{/* OPÇÕES */}
+          <HudButton
+            imageSrc="/images/hud/button_missions.png"
+            left="88.75%"
+            top="48%"
+            width="5.25%"
+            height="43%"
+            onClick={() => router.push("/missions")}
+          />
 
-<HudButton
-  imageSrc="/images/hud/button_settings.png"
-  left="97.9%"
-  top="60%"
-  width="5.8%"
-  height="32%"
-  onClick={() => router.push("/settings")}
-/>
+          {/* BOTÃO OPÇÕES */}
 
+          <HudButton
+            imageSrc="/images/hud/button_settings.png"
+            left="94.2%"
+            top="48%"
+            width="5.25%"
+            height="43%"
+            onClick={() => router.push("/settings")}
+          />
         </div>
       </section>
     </main>
+  );
+}
+
+type HudValueProps = {
+  left: string;
+  top: string;
+  width: string;
+  title: string;
+  value: string | number;
+  compact?: boolean;
+};
+
+function HudValue({
+  left,
+  top,
+  width,
+  title,
+  value,
+  compact = false,
+}: HudValueProps) {
+  return (
+    <div
+      title={`${title}: ${value}`}
+      style={{
+        position: "absolute",
+        left,
+        top,
+        width,
+        transform: "translate(-50%, -50%)",
+        overflow: "hidden",
+        color: "#ffe1a0",
+        fontFamily:
+          "Georgia, 'Times New Roman', serif",
+        fontSize: compact
+          ? "clamp(8px, 0.84vw, 16px)"
+          : "clamp(10px, 1vw, 20px)",
+        fontWeight: 900,
+        lineHeight: 1,
+        textAlign: "center",
+        textOverflow: "ellipsis",
+        textShadow:
+          "0 2px 1px #000, 0 0 4px #000, 0 0 8px rgba(0, 0, 0, 0.95)",
+        whiteSpace: "nowrap",
+        pointerEvents: "none",
+        zIndex: 10,
+      }}
+    >
+      {value}
+    </div>
   );
 }
