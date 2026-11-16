@@ -411,72 +411,88 @@ function HudValue({
 }
 
 type HudButtonProps = {
+  imageSrc: string;
   left: string;
   top: string;
   width: string;
   height: string;
-  label: string;
   active?: boolean;
   onClick: () => void;
 };
 
 function HudButton({
+  imageSrc,
   left,
   top,
   width,
   height,
-  label,
   active = false,
   onClick,
 }: HudButtonProps) {
+  const [pressed, setPressed] =
+    useState(false);
+
   return (
     <button
       type="button"
-      aria-label={label}
-      title={label}
       onClick={onClick}
+      onMouseDown={() =>
+        setPressed(true)
+      }
+      onMouseUp={() =>
+        setPressed(false)
+      }
+      onMouseLeave={() =>
+        setPressed(false)
+      }
       style={{
         position: "absolute",
         left,
         top,
         width,
         height,
-        border: active
-          ? "2px solid rgba(250, 204, 21, 0.4)"
-          : "2px solid transparent",
-        borderRadius: "8px",
-        backgroundColor: active
-          ? "rgba(250, 204, 21, 0.06)"
-          : "transparent",
+
+        padding: 0,
+
+        border: "none",
+
+        background: "transparent",
+
         cursor: "pointer",
+
         pointerEvents: "auto",
-        transition:
-          "border-color 150ms, background-color 150ms, transform 100ms, filter 150ms",
-      }}
-      onMouseEnter={(event) => {
-        event.currentTarget.style.borderColor = "#f6c967";
-        event.currentTarget.style.backgroundColor =
-          "rgba(246, 201, 103, 0.15)";
-        event.currentTarget.style.filter = "brightness(1.15)";
-      }}
-      onMouseLeave={(event) => {
-        event.currentTarget.style.borderColor = active
-          ? "rgba(250, 204, 21, 0.4)"
-          : "transparent";
 
-        event.currentTarget.style.backgroundColor = active
-          ? "rgba(250, 204, 21, 0.06)"
-          : "transparent";
+        zIndex: 80,
+      }}
+    >
+      <img
+        src={imageSrc}
+        alt=""
+        draggable={false}
+        style={{
+          width: "100%",
+          height: "100%",
 
-        event.currentTarget.style.filter = "none";
-        event.currentTarget.style.transform = "scale(1)";
-      }}
-      onMouseDown={(event) => {
-        event.currentTarget.style.transform = "scale(0.95)";
-      }}
-      onMouseUp={(event) => {
-        event.currentTarget.style.transform = "scale(1)";
-      }}
-    />
+          objectFit: "contain",
+
+          transform: pressed
+            ? "translateY(8px)"
+            : "translateY(0px)",
+
+          filter: pressed
+            ? "brightness(0.75)"
+            : active
+            ? "brightness(1.08)"
+            : "brightness(1)",
+
+          transition:
+            "transform .08s ease, filter .08s ease",
+
+          pointerEvents: "none",
+
+          userSelect: "none",
+        }}
+      />
+    </button>
   );
 }
